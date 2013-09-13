@@ -1,0 +1,35 @@
+array(10) {
+  ["ID"]=>
+  string(2) "72"
+  ["sim_name"]=>
+  string(16) "somethingorother"
+  ["sim_desc"]=>
+  string(0) ""
+  ["sim_conn"]=>
+  string(4) "conn"
+  ["cuttime"]=>
+  string(2) "30"
+  ["start_time"]=>
+  string(18) "<? echo time(); ?>"
+  ["debug"]=>
+  string(5) "false"
+  ["sim_seed"]=>
+  string(0) ""
+  ["perfect"]=>
+  string(5) "false"
+  ["map"]=>
+  array(3) {
+    ["location"]=>
+    array(2) {
+      ["lat"]=>
+      string(6) "34.958"
+      ["lng"]=>
+      string(18) "-81.99099999999999"
+    }
+    ["zoom"]=>
+    string(1) "8"
+    ["mapType"]=>
+    string(6) "hybrid"
+  }
+}
+<results><quakes><quake latitude="34.95799531086792" longitude="-82.33154296875" magnitude="6.5" depth="15" time="10"/></quakes><triggers></triggers></results>

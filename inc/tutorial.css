@@ -1,0 +1,35 @@
+h2{
+	text-align: center;
+}
+
+#msgBox{
+	position: absolute;
+	z-index: 10;
+	width: 50%;
+	background: white;
+	top: 20px;
+	left: 25%;
+	padding: 5px;
+	font-size: 11px;
+	line-height: 12px;
+	direction: ltr;
+	background-color: #E5F6FE;
+	border-color: #ADD9ED;
+	color: #5E99BD;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	text-align: center;
+	opacity: 0;
+}
+
+.qtip {
+	font-size: 11px;
+
+}
+
+#msgBox button{
+	margin: 5px;
+}

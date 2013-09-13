@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<quakes>
+<quake latitude="46.49839225859763" longitude="-105.380859375" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="38.41055825094609" longitude="-111.97265625" magnitude="7.5" depth="15" time="5">
+<s_wave_speed>10</s_wave_speed></quake>
+</quakes>
+

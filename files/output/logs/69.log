@@ -1,0 +1,45 @@
+array(3) {
+  [0]=>
+  array(3) {
+    ["ID"]=>
+    string(1) "1"
+    ["type"]=>
+    string(1) "1"
+    ["location"]=>
+    array(2) {
+      ["lat"]=>
+      string(17) "34.96699890670367"
+      ["lng"]=>
+      string(17) "-82.7105712890625"
+    }
+  }
+  [1]=>
+  array(3) {
+    ["ID"]=>
+    string(1) "2"
+    ["type"]=>
+    string(1) "1"
+    ["location"]=>
+    array(2) {
+      ["lat"]=>
+      string(17) "35.18278813800229"
+      ["lng"]=>
+      string(17) "-82.5347900390625"
+    }
+  }
+  [2]=>
+  array(3) {
+    ["ID"]=>
+    string(1) "3"
+    ["type"]=>
+    string(1) "1"
+    ["location"]=>
+    array(2) {
+      ["lat"]=>
+      string(17) "34.89944783005726"
+      ["lng"]=>
+      string(16) "-82.298583984375"
+    }
+  }
+}
+<results><quakes><quake latitude="35.07946034047981" longitude="-82.5347900390625" magnitude="6.5" depth="15" time="10"/></quakes><triggers><trigger time="23" lat="32.682100" lng="-116.492500" fmag="0.107250"/></triggers></results>

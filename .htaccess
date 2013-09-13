@@ -1,0 +1,16 @@
+# Enable Rewriting
+RewriteEngine On
+
+# Rewrite editor URLs
+#   Input:  editor/NAME/
+#   Output: editor.php?ID=NAME
+RewriteRule ^editor/(\w+)/?$ ./editor.php?ID=$1
+RewriteRule ^editor/?$ ./editor.php
+
+RewriteRule ^results/(\w+)/?$ ./results.php?ID=$1
+RewriteRule ^results/?$ ./results.php
+
+#Rewrite Contributors URLs
+RewriteRule ^contrib/?$ ./contrib.php
+RewriteRule ^tutorial/?$ ./editor.php?tutorial=true
+RewriteRule ^teachers/?$ ./teachers.php

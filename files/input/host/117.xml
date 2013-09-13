@@ -1,0 +1,20 @@
+<row_host>
+<id>1</id>
+<userid>1</userid>
+<create_time>1</create_time>
+<on_frac>1</on_frac>
+<con_frac>1</con_frac>
+<act_frac>1</act_frac>
+<p_ncpus>2</p_ncpus>
+<p_vendor>Genuine Intel</p_vendor>
+<p_fpops>1411554690.0357</p_fpops>
+<p_iops>3164629924.34267</p_iops>
+<p_membw>500000000</p_membw>
+<p_model>Pentium 4</p_model>
+<os_name>Microsoft Windows XP</os_name>
+<max_rday>24</max_rday>
+<err_r>2</err_r>
+<success_r>98</success_r>
+<mean_con>86400</mean_con>
+<std_con>3600</std_con>
+</row_host>

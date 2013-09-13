@@ -1,0 +1,168 @@
+/* QCN Web Simulator
+// This file is part of the QCN Web Simulator, which is based on EmBOINC
+// 
+// Copyright (C) 2013 University of Delaware
+//
+// QCN Web Simulator is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// QCN Web Simulator is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with QCN Web Simulator.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Filename: results.css
+// Author: Sam Schlachter
+// Description: This file
+*/
+
+#leftCol{
+	width: 18%;
+	height: 98%;
+	margin: 1%;
+	float: left;
+	overflow:hidden;
+	position: relative;
+}
+
+#rightCol{
+	width: 78%;
+	height: 98%;
+	float: right;
+	overflow:hidden;
+	margin: 1%;
+}
+
+
+
+.selectorBtn{
+	width: 100%;
+	height: 35px;
+}
+
+.results_div{
+	width: 100%;
+	height: 100%;
+	//position: relative;
+}
+
+#results_div_1{display:block;}
+#results_div_2{display:none;}
+#results_div_3{display:none;}
+#results_div_4{display:none;}
+
+
+/* Map CSS */
+#map_canvas{
+	width: 100%;
+	height: 524;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	position: relative;
+}
+
+#animationBtnContainer{
+	margin-left:auto;
+	margin-right:auto;	
+	text-align: center;
+	margin: 2% 0;
+}
+
+#intensityScale{
+	float: left;
+	height: 112;
+	background: white;
+}
+
+#timeVal{
+	font-size: 25;
+	color: #bc3434;
+	font-family: Verdana;
+	font-weight: bold;
+}
+
+.loadMsg{
+	position: absolute;
+	top: 40%;
+	left: 37%;
+	width: 208px;
+	height: 97.5px;
+	background: white;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	text-align: center;
+	padding: 15px 0px 0px 0px;
+}
+
+.simName{
+	font-weight: bold;
+}
+
+#simTable{
+	margin: 0 auto;
+	width : 65%;
+	height: 100%;
+	overflow: auto;
+}
+
+.simEntry{
+	position: relative;
+	height: 60px;
+	overflow: auto;
+	margin: 1%;
+}
+
+.simDesc{
+	width: 75%;
+	overflow: auto;
+}
+
+.simBtns{
+	width: 25%;
+	float: right;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+h2{
+	text-align: center;
+}
+
+#leftBtm{
+	position : absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+#addThis{
+	width: 100%;
+	margin: 10px 0;
+}
+
+#runAnotherBtn{
+	margin: 0px auto;
+}
+
+#leftBtm a:hover{ 
+		border-bottom: none;
+}
+
+.selectorBtnTitle{
+	text-align: center;
+	width: 100%;
+	margin: 5px 0px;	
+}
+
+#rawData{
+	width: 100%;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	height: 600px;
+	resize: none;
+}

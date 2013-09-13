@@ -1,0 +1,9 @@
+
+	<results>
+		<quakes>
+			<quake latitude="34.9895035675793" longitude="-82.02392578125" magnitude="6.5" depth="15" time="10"></quake>
+		</quakes>
+		<triggers>
+			<trigger time="23" lat="32.682100" lng="-116.492500" fmag="0.107250"/>
+		</triggers>
+	</results>

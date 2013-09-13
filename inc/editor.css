@@ -1,0 +1,302 @@
+/* QCN Web Simulator
+// This file is part of the QCN Web Simulator, which is based on EmBOINC
+// 
+// Copyright (C) 2013 University of Delaware
+//
+// QCN Web Simulator is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// QCN Web Simulator is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with QCN Web Simulator.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Filename: place_sensor.js
+// Author: Sam Schlachter
+// Description: This file
+*/
+
+	.marker.usel{
+		background-image: url(../icon/Bmu.png);
+	}
+	
+	.marker.sel{
+		background-image: url(../icon/Bmd.png);
+	}
+	
+	.area.usel{
+		background-image: url(../icon/Bpu.png);
+	}
+	
+	.area.sel{
+		background-image: url(../icon/Bpd.png);
+	}
+
+	.hand.sel{
+		background-image: url(../icon/Bsd.png);
+	}
+	.hand.usel{
+		background-image: url(../icon/Bsu.png);
+	}
+	.quake.sel{
+		background-image: url(../icon/button_quake_down.png);
+	}
+	.quake.usel{
+		background-image: url(../icon/button_quake_up.png);
+	}
+	.options.sel{
+		background-image: url(../icon/button_options_down.png);
+	}
+	.options.usel{
+		background-image: url(../icon/button_options_up.png);
+	}
+	
+	.toolButton{
+		float: right;
+		width:31px;
+		height:31px;
+		margin: 1px;
+	}
+	
+	.toolIcon{
+		float: left;
+		height: 20px;
+		margin: 6px 10px 0px 0px;
+	}
+	
+	.toolLabel{
+		float: left;
+		height: 16px;
+		margin: 8px 0px 0px 0px;
+	}
+	
+	.typeRow{
+		height: 32px;
+		width: 100%;
+		margin: 2% 0%;
+		position: relative;
+	}
+	
+	#sim_desc{
+		resize: none;
+	}
+	#sim_name{
+		resize: none;
+	}
+	
+	@-moz-document url-prefix() {
+                        #sim_name{
+	                        width: 97%;
+	                    }
+	                    #sim_desc{
+		                    width: 97%;
+	                    }
+                    }
+	
+	#runBtn{
+		width: 100%;
+	}
+	
+	#advancedBtn{
+		width: 100%;
+	}
+	
+	#newSensorType{
+		width: 100%;
+	}
+	
+	#sensorTypesHeader{
+		text-align: center;
+		font-weight:bold;
+	}
+	
+	#sensorTypes{
+		height: 200px;
+		overflow: auto;
+	}
+	
+	#popup_bg{  
+		height:100%;  
+		width:100%;  
+		background:#000000;    
+		z-index:-10;  
+		opacity: 0.7;
+	}  
+	
+	#popups{
+		display:none; 
+		height: 100%;
+		width: 100%;
+		position:fixed;  
+		_position:absolute; /* hack for internet explorer 6*/  
+		top:0;  
+		left:0;
+	}
+	
+	.popup_menu{
+		position: absolute;
+		top: 0;
+		display:none;  
+		height:650px;    
+		background:white;  
+		z-index:2;  
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		margin: 0 auto;
+	}
+	
+	.quakeSettingName{
+		width: 30%;
+	}
+	
+	#loadMsg{
+		position: absolute;
+		top: 40%;
+		left: 37%;
+		width: 25%;
+		height: 15%;
+		display: none;
+		background: white;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		text-align: center;
+		padding: 15px 0px 0px 0px;
+	}
+	
+	#loadBG{
+		background: #000000;
+		opacity: 0.6;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: none;
+	}
+	
+	#advanced_menu{
+		width:1000px;
+	}
+	
+	.quakeInput{
+		width: 40px;
+		text-align: right;
+	}
+	
+	.quakeUnits{
+		text-align: left;
+	}
+	 
+	
+	#saveResults{
+		padding:15px;
+		width:600px;
+	}
+	
+	#adv_table{
+		height: 80%;
+		width: 100%;
+	}
+	
+	#left_column{
+		width : 18%;
+		margin : 1%;
+		height : 96%;
+		float: left;
+		position: relative;
+	}
+	
+	#right_column{
+		width : 80%;
+		height : 620px;
+		max-width: 832px;
+		min-height: 650px;
+		float: left;
+		position: relative;
+	}
+	
+	.removeBtn {
+		-moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
+		box-shadow:inset 0px 1px 0px 0px #f5978e;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f) );
+		background:-moz-linear-gradient( center top, #f24537 5%, #c62d1f 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#c62d1f');
+		background-color:#f24537;
+		-webkit-border-top-left-radius:7px;
+		-moz-border-radius-topleft:7px;
+		border-top-left-radius:7px;
+		-webkit-border-top-right-radius:7px;
+		-moz-border-radius-topright:7px;
+		border-top-right-radius:7px;
+		-webkit-border-bottom-right-radius:7px;
+		-moz-border-radius-bottomright:7px;
+		border-bottom-right-radius:7px;
+		-webkit-border-bottom-left-radius:7px;
+		-moz-border-radius-bottomleft:7px;
+		border-bottom-left-radius:7px;
+		text-indent:0;
+		border:1px solid #d02718;
+		display:inline-block;
+		color:#ffffff;
+		font-family:Verdana;
+		font-size:13px;
+		font-weight:normal;
+		font-style:normal;
+		height:22px;
+		width:75px;
+		text-decoration:none;
+		text-align:center;
+		text-shadow:1px 1px 0px #810e05;
+	}
+	.removeBtn:hover {
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24537) );
+		background:-moz-linear-gradient( center top, #c62d1f 5%, #f24537 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24537');
+		background-color:#c62d1f;
+	}.removeBtn:active {
+		position:relative;
+		top:1px;
+	}
+	
+	.bottom{
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+	}
+	
+	#runBtn {
+		-moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+		box-shadow:inset 0px 1px 0px 0px #caefab;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+		background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+		background-color:#77d42a;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border: 2px solid #FFF;
+		display:inline-block;
+		color: #fcfdff;
+		font-family:Verdana;
+		font-size:20px;
+		font-weight:bold;
+		text-decoration:none;
+		text-shadow:1px 1px 0px #5cb811;
+		//height: 24px;
+		margin : 10px 0;
+	
+	}#runBtn:hover {
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
+		background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
+		background-color:#5cb811;
+	}#runBtn:active {
+		position:relative;
+		top:1px;

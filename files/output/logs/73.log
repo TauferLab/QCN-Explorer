@@ -1,0 +1,20 @@
+array(6) {
+  ["ID"]=>
+  string(1) "1"
+  ["magnitude"]=>
+  string(3) "6.5"
+  ["time"]=>
+  string(2) "10"
+  ["swaveSpeed"]=>
+  string(2) "10"
+  ["depth"]=>
+  string(2) "15"
+  ["location"]=>
+  array(2) {
+    ["lat"]=>
+    string(17) "34.73709847578162"
+    ["lng"]=>
+    string(17) "-82.2601318359375"
+  }
+}
+<results><quakes><quake latitude="34.73709847578162" longitude="-82.2601318359375" magnitude="6.5" depth="15" time="10"/></quakes><triggers></triggers></results>

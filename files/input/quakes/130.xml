@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<quakes>
+<quake latitude="40.38002840251183" longitude="-109.072265625" magnitude="9.99" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="49.95121990866204" longitude="-121.37420654296875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="50.958426723359935" longitude="-112.05780029296875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="51.06901665960389" longitude="-99.92889404296875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="46.86019101567027" longitude="-92.10662841796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="42.87596410238254" longitude="-92.01873779296875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="37.78808138412046" longitude="-92.28240966796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="31.57853542647338" longitude="-91.57928466796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="26.27371402440643" longitude="-97.20428466796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="28.84467368077179" longitude="-105.81756591796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="30.675715404167743" longitude="-117.33123779296875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="35.53222622770337" longitude="-123.65936279296875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="45.02695045318546" longitude="-124.97772216796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+<quake latitude="40.84706035607122" longitude="-128.66912841796875" magnitude="6.5" depth="15" time="10">
+<s_wave_speed>10</s_wave_speed></quake>
+</quakes>
+

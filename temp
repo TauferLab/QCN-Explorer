@@ -1,0 +1,229 @@
+<?php 
+	// QCN Web Simulator
+	// This file is part of the QCN Web Simulator, which is based on EmBOINC
+	// 
+	// Copyright (C) 2013 University of Delaware
+	//
+	// QCN Web Simulator is free software; you can redistribute it and/or modify it
+	// under the terms of the GNU Lesser General Public License
+	// as published by the Free Software Foundation,
+	// either version 3 of the License, or (at your option) any later version.
+	//
+	// QCN Web Simulator is distributed in the hope that it will be useful,
+	// but WITHOUT ANY WARRANTY; without even the implied warranty of
+	// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	// See the GNU Lesser General Public License for more details.
+	//
+	// You should have received a copy of the GNU Lesser General Public License
+	// along with QCN Web Simulator.  If not, see <http://www.gnu.org/licenses/>.
+	//
+	// Filename: generateTraces.php
+	// Author: Sam Schlachter
+	// Description: This file 
+
+	ini_set('display_errors', 1);
+	error_reporting(E_ALL);
+	
+	//require_once("inc/save_load.inc.php");
+	require_once("inc/config.inc");
+
+	if(isset($_GET['ID'])){
+		$ID = $_GET['ID'];
+	}
+	else{
+		$ID = 3;
+	}
+		
+	$filename = 'files/JSONfiles/'.$ID.'.json';
+	
+	$JSON_raw = file_get_contents($filename);
+	
+	$JSON = json_decode($JSON_raw,true);
+	$sim = $JSON['simulation'];
+	
+	//var_dump($JSON);
+	
+	//Collect All Sensors
+	$markerSensors = $sim['markers'];
+	$areaSensors = makeMarkersFromAreas($sim['areas']);
+	$allSensors = array_merge($markerSensors,$areaSensors);
+	
+	if(!file_put_contents($QCN_TRACES_FOLDER.$ID.".xml", generateQCNhostsXML($sim['markers']))){
+		echo "{\"error\" : \"QCN host trace generation write error\"}";
+		die();
+	}
+	if(!file_put_contents($HOST_TRACES_FOLDER.$ID.".xml", generateHostXML($allSensors,$sim['SensorTypes']))){
+		echo "{\"error\" : \"QCN host trace generation write error\"}";
+		die();
+	}
+	if(!file_put_contents($QUAKE_TRACES_FOLDER.$ID.".xml",generateQuakeXML($sim["earthquakes"]))){
+		echo "{\"error\" : \"QCN host trace generation write error\"}";
+		die();
+	}
+
+	function makeMarker($ID,$type,$lat,$lng){
+		$newMarker = array();
+		
+		$newMarker['ID'] = $ID;
+		$newMarker['type'] = $type;
+		$newMarker['location'] = array();
+		$newMarker['location']['lat'] = $lat;
+		$newMarker['location']['lng'] = $lng;
+		
+		return $newMarker;
+	}
+	
+	function makeMarkersFromAreas($areas){
+		$newMarkers = array();
+		$nextID = 0;
+		
+		foreach($areas as $area){
+			$limits = getLimits($area);
+			$numNewMarkers = $area["numSensor"];		
+	
+			for($i=0;$i<$numNewMarkers;$i++){
+				$tries = 0;
+				do{
+					$newLat = rand($limits["lat"]["min"]*100000,$limits["lat"]["max"]*100000)/100000;
+					$newLng = rand($limits["lng"]["min"]*100000,$limits["lng"]["max"]*100000)/100000;
+	
+					$tries++;
+				}while(!isInsideArea($newLng,$newLat,$area)&&$tries<1000);
+			
+				$newMarkers[] = makeMarker($nextID++,$area["type"],$newLat,$newLng);
+			} 
+		}
+		//var_dump($newMarkers);	
+		return $newMarkers;
+	}
+	
+	//Returns a 2x2 array with the first dimention being lat/lng and the second being min/max 
+	function getLimits($area){
+		$limits = array();
+		$limits["lat"] = array();
+		$limits["lat"]["max"] = -360;
+		$limits["lat"]["min"] = 360;
+		$limits["lng"] = array();
+		$limits["lng"]["max"] = -360;
+		$limits["lng"]["min"] = 360; 
+		
+		foreach($area["points"] as $point){
+			if($point["lat"]>$limits["lat"]["max"]){
+				$limits["lat"]["max"] = $point["lat"];
+			}
+			if($point["lat"]<$limits["lat"]["min"]){
+				$limits["lat"]["min"] = $point["lat"];
+			}
+			if($point["lng"]>$limits["lng"]["max"]){
+				$limits["lng"]["max"] = $point["lng"];
+			}
+			if($point["lng"]<$limits["lng"]["min"]){
+				$limits["lng"]["min"] = $point["lng"];
+			}
+		}
+		
+		return $limits;
+	}
+	
+	function isInsideArea($newLng,$newLat,$area){
+		$points = $area["points"];
+		
+		$inside = false;
+	
+		for($i=0,$j = count($points)-1;$i<count($points);$i++){
+			if(
+				((($points[$i]["lat"] <= $newLat) && ($newLat < $points[$j]["lat"])) ||
+				(($points[$j]["lat"] <= $newLat) && ($newLat < $points[$i]["lat"]))) &&
+				($newLng < ($points[$j]["lng"] - $points[$i]["lng"]) * ($newLat - $points[$i]["lat"]) / ($points[$j]["lat"] - $points[$j]["lng"]) + $points[$i]["lng"])
+			){
+				$inside = !$inside;	
+			}
+			
+			$j = $i;
+		}
+		return $inside;
+	} 
+	
+	function generateQCNhostsXML($markers){
+		$markersXML = new SimpleXMLElement('<markers/>');
+		
+		foreach ( $markers as $marker ){
+			$markerXML = $markersXML->addChild('marker');
+			$markerXML->addAttribute('name', $marker['ID']);
+			$markerXML->addAttribute('type', $marker['type']);
+			$markerXML->addAttribute('lat', $marker['location']['lat']);
+			$markerXML->addAttribute('lng', $marker['location']['lng']);
+		} 
+		
+		return str_replace(">",">\n",$markersXML->asXML());	
+	}
+
+	function generateHostXML($markers,$types){
+		$hostsXML = "";
+		$type = $types[0];
+		$currentHostID = 1;
+		$currentUserID = 1;
+		
+		foreach ( $markers as $marker ){
+			//make sure we're pointing to the correct type object
+			if($type['ID']!=$marker['type']){
+				foreach ( $types as $temp_type ){
+					if($temp_type['ID']==$marker['type']){
+						$type = $temp_type;
+						break;
+					}
+				}
+			}
+						
+			$hostXML = "<row_host>\n";
+			$hostXML .= basicXML("id",$currentHostID++);
+			$hostXML .= basicXML("userid",$currentUserID++);
+			$hostXML .= basicXML("create_time",$type['c_time']);
+			//$hostXML .= basicXML("timezone",marker[]);
+			$hostXML .= basicXML("on_frac",$type['on_frac']);
+			$hostXML .= basicXML("con_frac",$type["conn_frac"]);
+			$hostXML .= basicXML("act_frac",$type["act_frac"]);
+			$hostXML .= basicXML("p_ncpus",$type["num_cpus"]);
+			$hostXML .= basicXML("p_vendor",$type["proc_make"]);
+			$hostXML .= basicXML("p_fpops",$type["flops"]);
+			$hostXML .= basicXML("p_iops",$type["iops"]);
+			$hostXML .= basicXML("p_membw",$type["membandw"]);
+			$hostXML .= basicXML("p_model",$type["proc_model"]);
+			$hostXML .= basicXML("os_name",$type["os_name"]);
+			$hostXML .= basicXML("max_rday",$type["max_rpd"]);
+			//$hostXML .= basicXML("total_r",$type[""]);
+			$hostXML .= basicXML("err_r",$type["error_rate"]);
+			$hostXML .= basicXML("success_r",$type["success_rate"]);
+			$hostXML .= basicXML("mean_con",$type["mean_conn"]);
+			$hostXML .= basicXML("std_con",$type["std_conn"]);
+			
+			$hostXML .= "</row_host>\n";
+			
+			$hostsXML .= $hostXML;
+		}
+		
+		return $hostsXML;
+	}
+	
+	function basicXML($tag,$value){
+		return "<".$tag.">".$value."</".$tag.">\n";
+	}
+	
+	function generateQuakeXML($quakes){
+		$quakesXML = new SimpleXMLElement('<quakes/>');
+		
+		foreach ( $quakes as $quake ){
+			$quakeXML = $quakesXML->addChild('quake');
+			$quakeXML->addAttribute('latitude', $quake['location']['lat']);
+			$quakeXML->addAttribute('longitude', $quake['location']['lng']);
+			$quakeXML->addAttribute('magnitude', $quake['magnitude']);
+			$quakeXML->addAttribute('depth', $quake['depth']);
+			$quakeXML->addAttribute('time', $quake['time']);
+			if($quake["swaveSpeed"]!=3){
+				$quakeXML->addChild("s_wave_speed",$quake["swaveSpeed"]);
+			}
+		} 
+		
+		return str_replace("d>\n","d>",str_replace(">",">\n",$quakesXML->asXML()));
+	}
+?>
