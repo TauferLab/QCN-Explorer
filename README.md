@@ -1,7 +1,7 @@
-QCN Web Simulator
+QCN Explorer
 -----------------
 
-Welcome to the QCN Web Simulator, a graphical modular simulator of the QCN network.
+Welcome to the QCN Explorer, a graphical modular simulator of the QCN network.
 
 
 Installation
