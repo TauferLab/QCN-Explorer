@@ -88,6 +88,18 @@
 				<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" />
 			</a>
 		</p>
+		
+		
+		<h3>Source Code</h3>
+		<p>
+		    This work is available on GitHub
+		    <br>
+    		<a href="https://github.com/TauferLab/QCN-Explorer/">https://github.com/TauferLab/QCN-Explorer/</a>
+		</p>
+		<iframe src="http://ghbtns.com/github-btn.html?user=TauferLab&repo=QCN-Explorer&type=watch&size=large"
+		    allowtransparency="true" frameborder="0" scrolling="0" width="90" height="30"></iframe>
+	    <iframe src="http://ghbtns.com/github-btn.html?user=TauferLab&repo=QCN-Explorer&type=fork&size=large"
+		    allowtransparency="true" frameborder="0" scrolling="0" width="90" height="30"></iframe>
 
 	</div>
 	

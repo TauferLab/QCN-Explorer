@@ -63,7 +63,7 @@ function printFooter(){
 	echo '
 	</div>
 	<div id="footer">
-		<span>©2013 <a href="http://www.udel.edu/">University of Delaware</a>, Global Computing Lab - <a href="'.$siteURL.'version">Release v'.$currentSWrev.'</a></span>
+		<span>©2013 <a href="http://www.udel.edu/">University of Delaware</a>, <a href="http://gcl.cis.udel.edu/">Global Computing Lab</a> - <a href="'.$siteURL.'version">Release v'.$currentSWrev.'</a></span>
 		<div>
 			<span id="cc_licence">This work is licensed under a
 				<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">
