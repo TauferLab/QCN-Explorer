@@ -1,26 +1,26 @@
 <?php
 
-	/*
-	 * QCN Explorer
-	 *
-	 * This file is part of the QCN Web Simulator, which is based on EmBOINC
-	 *
-	 * Copyright (C) 2013 University of Delaware
-	 *
-	 * QCN Explorer is licensed under the Creative Commons Attribution-NonCommercial
-	 * 3.0 Unported License. To view a copy of this license, visit
-	 * http://creativecommons.org/licenses/by-nc/3.0/ or send a letter to
-	 * Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-	 *
-	 * QCN Web Simulator is distributed in the hope that it will be useful,
-	 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-	 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-	 *
-	 * Filename: version.php
-	 * Author: Sam Schlachter
-	 * Description: This file 
-	 *
-	 */
+/*
+ * QCN Explorer
+ *
+ * This file is part of the QCN Web Simulator, which is based on EmBOINC
+ *
+ * Copyright (C) 2013 University of Delaware
+ *
+ * QCN Explorer is licensed under the Creative Commons Attribution-NonCommercial
+ * 3.0 Unported License. To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-nc/3.0/ or send a letter to
+ * Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+ *
+ * QCN Web Simulator is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Filename: contact.php
+ * Author: Sam Schlachter
+ * Description: This file 
+ *
+ */
 	 
 	require_once("src/php/template.inc");
 	require_once("src/php/config.inc");
