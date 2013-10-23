@@ -95,42 +95,18 @@ var Area = function(areaObj){
 		}
 		else{
 			if($(".quake").hasClass('sel')){
-				placeQuake(event.latLng);
+				Quake.place(event.latLng);
 			}
 			else if( $("#m"+currentSensorType).hasClass('sel') ){
-				placeMarker(event.latLng);
+				Marker.place(event.latLng);
 			}
 			else if( $("#a"+currentSensorType).hasClass('sel') ){
-				areaAddPoint(event);
+				Area.addPoint(event);
 			}
 		}
     });
     
     $("#density_" + this.ID).val(this.density);
-}
-
-Area.prototype.toJSON = function(){
-	var first = true;
-	var ret = "{"+
-		"\"ID\":\"" + this.ID + "\"," +
-		"\"type\":\"" + this.type + "\","+
-		"\"density\":\"" + this.density + "\"," +
-		"\"sArea\":\""+ this.sArea + "\"," +
-		"\"numSensor\":\"" + this.numSensors + "\",";
-	
-	ret = ret + "\"points\":[";
-	
-	var indexLocs = this.path.getArray();
-	for(i in indexLocs){
-		var position = indexLocs[i];
-		
-		if(first) first = false;
-		else ret = ret + ",";
-		
-		ret = ret +	"{\"lat\":\"" + position.lat() + "\",\"lng\":\"" + position.lng() + "\"}";
-	}
-	
-	return ret + "]}";
 }
 
 Area.get = function(areaID){
@@ -203,4 +179,27 @@ Area.addLoaded = function(areas){
 	for(x in areas){
 		areaArray.push(new Area(areas[x]));
 	}
+}
+
+Area.prototype.serialize = function(){
+    var retVal = new Object(null);
+    retVal.ID = this.ID;
+    retVal.type = this.type;
+    retVal.density = this.density;
+    retVal.sArea = this.sArea;
+    retVal.numSensor = this.numSensors;
+    retVal.points = [];
+    
+    var indexLocs = this.path.getArray();
+	for(i in indexLocs){
+	    var temp = new Object(null);
+		var position = indexLocs[i];
+		
+		temp.lat = position.lat();
+		temp.lng = position.lng();
+		
+		retVal.points.push( temp );
+	}
+    
+    return retVal;
 }

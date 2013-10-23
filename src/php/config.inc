@@ -57,7 +57,7 @@
 		
 	// Database info
 	$mysql_user = 'qcnExplorer';
-	$mysql_pass = 'password';
+	$mysql_pass = 'sh8P7ybFe3DaMwfQ';
 	$mysql_host = 'localhost';
 	$mysql_db = 'qcnExplorer';
 	

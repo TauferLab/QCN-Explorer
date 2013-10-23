@@ -1,19 +1,20 @@
 simToJSON = function(){
-	var rawJSON = "{"+
-	"	\"simulation\":{"+
-			getParametersJSON()+","+
-			getEarthquakesJSON()+","+
-			getAreasJSON()+","+
-			getSensorsJSON()+","+
-			getSensorTypesJSON()+
-	"	}"+
-	"}";
+
+	var sim = new Object(null);
+	sim.simulation = new Object(null);
 	
-	return escapeJSON(rawJSON);
+	sim.simulation.parameters = getParametersJSON();
+	sim.simulation.earthquakes = getEarthquakesJSON();
+	sim.simulation.areas = getAreasJSON();
+	sim.simulation.markers = getMarkersJSON();
+	sim.simulation.SensorTypes = getSensorTypesJSON();
+	
+	return escapeJSON( JSON.stringify(sim) );
 }
 
 escapeJSON = function(string){
 
+    //helper function
     replaceAll = function(find, replace, str) {
         return str.replace(new RegExp(find, 'g'), replace);
     }
@@ -23,85 +24,75 @@ escapeJSON = function(string){
 	return string;
 }
 
-
-
 getParametersJSON = function(){
-	var ret = "\"parameters\":{\"ID\":\""+currentSimID+"\"";
-	
-	var advancedOptions = ['sim_conn','cuttime','start_time','debug','sim_seed','perfect'];
-	
-	for( i in advancedOptions){
-		ret = ret + ",\""+advancedOptions[i]+"\":\"" + $("#"+advancedOptions[i]).val() + "\"";
-	}
-	
-	var location = map.getCenter();
-	var zoom = map.getZoom();
-	var map_type = map.getMapTypeId();
-	
-	ret = ret + ",\"sim_name\": \"" + $("#sim_name").val() + "\","
-	ret = ret + "\"sim_desc\": \"" + $("#sim_desc").val() + "\","	
-		
-	ret = ret + 
-		"\"map\": {"+
-		"\"location\": { \"lat\":\""+ location.lat() +"\", \"lng\":\""+ location.lng() +"\"},"+
-		"\"zoom\" : \""+ zoom +"\","+
-		"\"mapType\" : \"" + map_type + "\""+
-		"}";
-	
-	console.log(ret);
-	
-	return ret + "}";
-	
+    var retVal = new Object(null);
+
+    // ID 
+    retVal.ID = currentSimID;
+    
+    //Advanced Options
+    retVal.sim_conn = $("#sim_conn").val();
+    retVal.cuttime = $("#cuttime").val();
+    retVal.start_time = $("#start_time").val();
+    retVal.debug = $("#debug").val();
+    retVal.sim_seed = $("#sim_seed").val();
+    retVal.perfect = $("#perfect").val();
+    
+    //Sim Name and Description
+    retVal.sim_name = $("#sim_name").val();
+    retVal.sim_desc = $("#sim_desc").val();
+    
+    //Map Info
+    
+    retVal.map = new Object(null);
+    retVal.map.zoom = map.getZoom();
+    retVal.map.mapType = map.getMapTypeId();
+
+    var location = map.getCenter();
+    
+    retVal.map.location = new Object(null);
+    retVal.map.location.lat = location.lat();
+    retVal.map.location.lng = location.lng();
+
+    return retVal;
+
 }
 getEarthquakesJSON = function(){
-	var first = true;
-	var ret =  "\"earthquakes\":[";
-	
-	for(i in quakeArray){
-		if(first) first = false;
-		else ret = ret + ",";
-		ret = ret + quakeArray[i].toJSON();
+    var retArr = [];
+
+    for(i in quakeArray){  
+        retArr.push( quakeArray[i].serialize() );
 	}
-	
-	return ret + "]";
+
+    return retArr;
 }
 
 getAreasJSON = function(){
-	var first = true;
-	var ret = "\"areas\":[";
-	
-	for (area in areaArray){
-		if(first) first = false;
-		else ret = ret + ",";
-		ret = ret + areaArray[area].toJSON();
+    var retArr = [];
+
+    for(i in areaArray){  
+        retArr.push( areaArray[i].serialize() );
 	}
-	
-	return ret +"]";
+
+    return retArr;
 }
 
-getSensorsJSON = function(){
-	//markerArray
-	var first = true;
-	var ret = "\"markers\":[";
-	
-	for (i in markerArray){
-		if(first) first = false;
-		else ret = ret + ",";
-		ret = ret + markerArray[i].toJSON();
+getMarkersJSON = function(){
+    var retArr = [];
+
+    for(i in markerArray){  
+        retArr.push( markerArray[i].serialize() );
 	}
 
-	return ret + "]";
+    return retArr;
 }
 
 getSensorTypesJSON = function(){
-	var first = true;
-	var ret = "\"SensorTypes\":[";
-	
-	for (i in sensorTypeArray){
-		if(first) first = false;
-		else ret = ret + ",";
-		ret = ret + sensorTypeArray[i].toJSON();
+    var retArr = [];
+
+    for(i in sensorTypeArray){  
+        retArr.push( sensorTypeArray[i].serialize() );
 	}
 
-	return ret + "]";
+    return retArr;
 }

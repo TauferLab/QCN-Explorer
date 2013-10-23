@@ -98,9 +98,16 @@ Marker.addLoaded = function(loadedMarkerArray){
 	}
 }
 
-Marker.prototype.toJSON = function(){
+Marker.prototype.serialize = function(){
+    var retVal = new Object(null);
+
 	var location = this.gmarker.getPosition();
-	var lat = location.lat();
-	var lng = location.lng();
-	return "{\"ID\":\""+this.ID+"\", \"type\":\""+this.type + "\",\"location\":{\"lat\":\""+lat+"\",\"lng\":\""+lng+"\"}}";
+
+	retVal.ID = this.ID;
+	retVal.type = this.type;
+	retVal.location = new Object(null);
+	retVal.location.lat = location.lat();
+	retVal.location.lng = location.lng();
+		
+	return retVal;
 }

@@ -56,19 +56,6 @@ SensorType = function (ID, sensorTypeIn){
 		this.on_frac = ON_FRAC;
 		this.conn_frac = CONN_FRAC;
 		this.act_frac = ACT_FRAC;
-		this.os_name = OS_NAME;
-		this.num_cpus = NUM_CPUS;
-		this.proc_make = PROC_MAKE;
-		this.proc_model = PROC_MODEL;
-		this.flops = FLOPS;
-		this.iops = IOPS;
-		this.membandw = MEMBANDW;
-		this.c_time = C_TIME;
-		this.mean_conn = MEAN_CONN;
-		this.std_conn = STD_CONN;
-		this.max_rpd = MAX_RPD;
-		this.success_rate = SUCCESS_RATE;
-		this.error_rate = ERROR_RATE;
 		this.false_trig_rate = FALSE_TRIG_RATE;
 		this.trig_lower_bound = TRIG_LOWER_BOUND;
 		this.trig_upper_bound = TRIG_UPPER_BOUND;
@@ -78,19 +65,6 @@ SensorType = function (ID, sensorTypeIn){
 		this.on_frac=sensorTypeIn.on_frac;
 		this.conn_frac=sensorTypeIn.conn_frac;
 		this.act_frac=sensorTypeIn.act_frac;
-		this.os_name=sensorTypeIn.os_name;
-		this.num_cpus=sensorTypeIn.num_cpus;
-		this.proc_make=sensorTypeIn.proc_make;
-		this.proc_model=sensorTypeIn.proc_model;
-		this.flops=sensorTypeIn.flops;
-		this.iops=sensorTypeIn.iops;
-		this.membandw=sensorTypeIn.membandw;
-		this.c_time=sensorTypeIn.c_time;
-		this.mean_conn=sensorTypeIn.mean_conn;
-		this.std_conn=sensorTypeIn.std_conn;
-		this.max_rpd=sensorTypeIn.max_rpd;
-		this.success_rate=sensorTypeIn.success_rate;
-		this.error_rate=sensorTypeIn.error_rate;
 		this.false_trig_rate=sensorTypeIn.false_trig_rate;
 		this.trig_lower_bound=sensorTypeIn.trig_lower_bound;
 		this.trig_upper_bound=sensorTypeIn.trig_upper_bound;
@@ -128,49 +102,10 @@ SensorType = function (ID, sensorTypeIn){
     });
 }
 
-SensorType.prototype.toJSON = function(){
-	return "{"+
-			"\"ID\":\""+this.ID+"\","+
-			"\"on_frac\":\""+$('#on_frac_'+this.ID).val()+"\","+
-			"\"conn_frac\":\""+$('#conn_frac_'+this.ID).val()+"\","+
-			"\"act_frac\":\""+$('#act_frac_'+this.ID).val()+"\","+
-			"\"os_name\":\""+$('#os_name_'+this.ID).val()+"\","+
-			"\"num_cpus\":\""+$('#num_cpus_'+this.ID).val()+"\","+
-			"\"proc_make\":\""+$('#proc_make_'+this.ID).val()+"\","+
-			"\"proc_model\":\""+$('#proc_model_'+this.ID).val()+"\","+
-			"\"flops\":\""+$('#flops_'+this.ID).val()+"\","+
-			"\"iops\":\""+$('#iops_'+this.ID).val()+"\","+
-			"\"membandw\":\""+$('#membandw_'+this.ID).val()+"\","+
-			"\"c_time\":\""+$('#c_time_'+this.ID).val()+"\","+
-			"\"mean_conn\":\""+$('#mean_conn_'+this.ID).val()+"\","+
-			"\"std_conn\":\""+$('#std_conn_'+this.ID).val()+"\","+
-			"\"max_rpd\":\""+$('#max_rpd_'+this.ID).val()+"\","+
-			"\"success_rate\":\""+$('#success_rate_'+this.ID).val()+"\","+
-			"\"error_rate\":\""+$('#error_rate_'+this.ID).val()+"\","+
-			"\"flase_trig_rate\":\""+$('#false_trig_rate_'+this.ID).val()+"\","+
-			"\"trig_lower_bound\":\""+$('#trig_lower_bound_'+this.ID).val()+"\","+
-			"\"trig_upper_bound\":\""+$('#trig_upper_bound_'+this.ID).val()+"\","+
-			"\"trig_prob\":\""+$('#trig_prob_'+this.ID).val()+"\""+
-		"}";
-}
-
 SensorType.prototype.modifyHTML = function(){
 	$('#on_frac_'+this.ID).val(this.on_frac);
 	$('#conn_frac_'+this.ID).val(this.conn_frac);
 	$('#act_frac_'+this.ID).val(this.act_frac);
-	$('#os_name_'+this.ID).val(this.os_name);
-	$('#num_cpus_'+this.ID).val(this.num_cpus);
-	$('#proc_make_'+this.ID).val(this.proc_make);
-	$('#proc_model_'+this.ID).val(this.proc_model);
-	$('#flops_'+this.ID).val(this.flops);
-	$('#iops_'+this.ID).val(this.iops);
-	$('#membandw_'+this.ID).val(this.membandw);
-	$('#c_time_'+this.ID).val(this.c_time);
-	$('#mean_conn_'+this.ID).val(this.mean_conn);
-	$('#std_conn_'+this.ID).val(this.std_conn);
-	$('#max_rpd_'+this.ID).val(this.max_rpd);
-	$('#success_rate_'+this.ID).val(this.success_rate);
-	$('#error_rate_'+this.ID).val(this.error_rate);
 	$('#false_trig_rate_'+this.ID).val(this.false_trig_rate);
 	$('#trig_lower_bound_'+this.ID).val(this.trig_lower_bound);
 	$('#trig_upper_bound_'+this.ID).val(this.trig_upper_bound);
@@ -227,58 +162,6 @@ SensorType.prototype.addSettingFrame = function(){
 				'<td><input type="text" id="act_frac_'+ ID + '"></td>'+
 			'</tr>'+
 			'<tr>'+
-				'<td><b>Default OS name</b></td>'+
-				'<td><input type="text" id="os_name_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default number of cpus</b></td>'+
-				'<td><input type="text" id="num_cpus_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default processor</b></td>'+
-				'<td><input type="text" id="proc_make_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default processor model</b></td>'+
-				'<td><input type="text" id="proc_model_'+ ID + '" ></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default flops</b></td>'+
-				'<td><input type="text" id="flops_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default iops</b></td>'+
-				'<td><input type="text" id="iops_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default memory bandwidth</b></td>'+
-				'<td><input type="text" id="membandw_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Create Time</b></td>'+
-				'<td><input type="text" id="c_time_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default mean connection (sec)</b></td>'+
-				'<td><input type="text" id="mean_conn_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default std connection</b></td>'+
-				'<td><input type="text" id="std_conn_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default MAX results per day</b></td>'+
-				'<td><input type="text" id="max_rpd_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default successes</b></td>'+
-				'<td><input type="text" id="success_rate_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
-				'<td><b>Default errors</b></td>'+
-				'<td><input type="text" id="error_rate_'+ ID + '"></td>'+
-			'</tr>'+
-			'<tr>'+
 				'<td><b>Default false trigger rate</b></td>'+
 				'<td><input type="text" id="false_trig_rate_'+ ID + '"></td>'+
 			'</tr>'+
@@ -316,4 +199,15 @@ SensorType.addLoaded = function(SensorTypes){
 
 SensorType.addNew = function(){
 	sensorTypeArray.push(new SensorType(++totalSensorTypes));
+}
+
+SensorType.prototype.serialize = function(){
+    var retVal = new Object(null);
+    retVal.ID = this.ID;
+    
+    retVal.on_frac = $('#on_frac_'+this.ID).val();
+    retVal.conn_frac = $('#conn_frac_'+this.ID).val();
+    retVal.act_frac = $('#act_frac_'+this.ID).val();
+    
+	return retVal;
 }

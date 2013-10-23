@@ -202,19 +202,21 @@ Quake.makeError = function (selector,message){
     });
 }
 
-Quake.prototype.toJSON = function (){
-	var loc = this.gmarker.getPosition();
-	return "{" +
-		"\"ID\":\""			+ this.ID + "\"," +
-		"\"magnitude\":\""	+ this.magnitude + "\","+
-		"\"time\":\""		+ this.time + "\"," +
-		"\"swaveSpeed\":\""	+ this.swaveSpeed + "\"," +
-		"\"depth\":\""		+ this.depth + "\"," +
-		"\"location\":{" +
-			"\"lat\":\"" + loc.lat() + "\"," +
-			"\"lng\":\"" + loc.lng() + "\"" +
-		"}" +
-	"}";
+Quake.prototype.serialize = function (){
+    var retVal = new Object(null);
+    
+    retVal.ID = this.ID;
+    retVal.magnitude = this.magnitude;
+    retVal.time = this.time;
+    retVal.swaveSpeed = this.swaveSpeed;
+    retVal.depth = this.depth;
+    
+    var location = this.gmarker.getPosition();  
+    retVal.location = new Object(null);
+    retVal.location.lat = location.lat();
+    retVal.location.lng = location.lng();
+    
+    return retVal;
 }
 
 Quake.removeAll = function (){

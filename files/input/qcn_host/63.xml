@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 
 <markers>
-<marker name="1" type="1" lat="34.89043681762452" lng="-82.2052001953125"/>
-<marker name="2" type="1" lat="34.465806327688526" lng="-82.606201171875"/>
+<marker name="1" type="1" lat="34.560859367084" lng="-85.472946166992"/>
+<marker name="2" type="1" lat="37.142803443717" lng="-84.901657104492"/>
+<marker name="3" type="1" lat="35.746512259919" lng="-80.748825073242"/>
+<marker name="4" type="1" lat="37.107765071185" lng="-82.199020385742"/>
+<marker name="5" type="1" lat="34.107256396631" lng="-82.946090698242"/>
 </markers>
 
