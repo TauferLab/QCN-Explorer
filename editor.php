@@ -23,8 +23,8 @@
 	 * a number of external pages for various functions: save.php, load.php, run.php
 	 */
 
-	require_once("inc/config.inc");
-	require_once("inc/template.inc");
+	require_once("src/php/config.inc");
+	require_once("src/php/template.inc");
 	
 	if($DEBUG){
 		ini_set('display_errors', 1);
@@ -48,31 +48,35 @@
 <title>QCN Explorer - Simulation Builder</title>
 
 <!-- Page Style Sheet -->
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/common.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/editor.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/tutorial.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/jquery.qtip.min.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/common.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/editor.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/tutorial.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/jquery.qtip.min.css" />
 
 <!-- Google Maps Javascript -->
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 
 <!-- Jquery -->
-<script language="JavaScript" src="<?php echo $siteURL?>inc/jquery-latest.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/jquery-latest.js"></script>
 
 <!-- qTip -->
-<script language="JavaScript" src="<?php echo $siteURL?>inc/jquery.qtip.min.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/jquery.qtip.min.js"></script>
+
+<!-- JSON implementation for old browsers -->
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/json3.min.js"></script>
 
 <!-- QCN Javascript -->
-<script language="JavaScript" src="<?php echo $siteURL?>inc/editor.php.inc"></script>
-<script language="JavaScript" src="<?php echo $siteURL?>inc/areas.js"></script>
-<script language="JavaScript" src="<?php echo $siteURL?>inc/markers.php.inc"></script>
-<script language="JavaScript" src="<?php echo $siteURL?>inc/quakes.php.inc"></script>
-<script language="JavaScript" src="<?php echo $siteURL?>inc/sensorType.php.inc"></script>
-<script language="JavaScript" src="<?php echo $siteURL?>inc/tutorial.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/editor.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/areas.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/markers.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/quakes.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/sensorType.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/tutorial.js"></script>
 <script language="JavaScript">
 	//TODO : Don't do this assigning JavaScript variables from PHP is bad news
 	<?php
 		echo "var loadSimID = \"$loadSimID\";\n";
+		echo "var siteURL = \"$siteURL\";\n";
 		
 		if(isset($_GET["tutorial"])){
 			echo "var tutorial = true;";
@@ -169,6 +173,10 @@
 		</div>
 		
 		<div id="sensorTypeEditorFrames" class="hidden">
+		</div>
+		
+		<div id="quakeProperties" class="hidden">
+		
 		</div>
 		
 	<?php printFooter(); ?>

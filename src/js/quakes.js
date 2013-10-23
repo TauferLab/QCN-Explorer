@@ -1,8 +1,3 @@
-<?php
-	require_once("config.inc");
-	header("Content-Type: text/javascript");
-?>
-
 // QCN Web Simulator
 // This file is part of the QCN Web Simulator, which is based on EmBOINC
 // 
@@ -55,38 +50,41 @@ function Quake(location, loadedQuake){
 		}
 	}
 	
-	this.gmarker = new google.maps.Marker({position: location, map: map, icon: "<?php echo $siteURL?>icon/q_icon.png",draggable: true});
+	this.gmarker = new google.maps.Marker({position: location, map: map, icon: siteURL + "icon/q_icon.png",draggable: true});
 	this.gmarker.ID = this.ID;
 	
+	this.getInfoWindowHTML = quakeGetInfoWindowHTML;
 	this.toJSON = quakeToJSON;
 	
-	//this.document = makePlacedRow(this.ID,"quake",quakeTable);
-	
-	var infoWinStr	 = "<h4>Earthquake " + this.ID + " <button class='removeBtn' onclick=removeQuake("+this.ID+")>Remove</button></h4>";
-	infoWinStr		+= "<table>";
-	infoWinStr		+= addRowTwoCol("Magnitude"		, "<input class='quakeInput' id='magintude_" + this.ID + "' type='text' value='" + this.magnitude + "'></input>");
-	infoWinStr		+= addRowTwoCol("Event Time"	, "<input class='quakeInput' id='time_" + this.ID + "' type='text' value='" + this.time + "'></input> Seconds");
-	infoWinStr		+= addRowTwoCol("S-Wave Speed"	, "<input class='quakeInput' id='depth_" + this.ID + "' type='text' value='" + this.depth + "'></input> M/S");
-	infoWinStr		+= addRowTwoCol("Depth"			, "<input class='quakeInput' id='depth_" + this.ID + "' type='text' value='" + this.depth + "'></input> KM");
-	infoWinStr		+= "</table>";
-	
-	this.infoWin = new google.maps.InfoWindow({ content: infoWinStr });
+	//$("#quakeProperties").append( this.getInfoWindowHTML() );
+	this.infoWindowHTML = this.getInfoWindowHTML();
+	this.infoWin = new google.maps.InfoWindow({ content: this.infoWindowHTML });
+	this.infoWin.ID = this.ID;
 	
 	google.maps.event.addListener(this.infoWin,'closeclick', function(){
-		console.log(tutStep);
+		if(! saveQuake(this.ID) ){
+    		return;
+		}
     	if(tutorial && tutStep == 4){
 			loadTut(5);
 		}		
 	});
 	
 	google.maps.event.addListener(this.gmarker, 'click', function() {
-    	var marker = getQuake(this.ID);
+	
+    	var quake = getQuake(this.ID);
     	
     	if(tutorial && tutStep == 3){
 			loadTut(4);
 		}
     	
-    	marker.infoWin.open(map,marker.gmarker);
+    	quake.infoWin.open(map,quake.gmarker);
+    	
+    	
+    });
+    
+    google.maps.event.addListener(this.infoWin, 'domready', function() {
+        $("[src='http://maps.gstatic.com/mapfiles/api-3/images/mapcnt3.png']").css({opacity:0});
     });
 }
 
@@ -122,6 +120,22 @@ function removeQuake(ID){
 	}
 }
 
+function quakeGetInfoWindowHTML(){
+    var infoWinStr  = "<div id= 'q_" + this.ID + "_prop'>"
+    infoWinStr	    += "<h4>Earthquake " + this.ID + " <button class='removeBtn' onclick=removeQuake("+this.ID+")>Remove</button></h4>";
+	infoWinStr		+= "<table>";
+	infoWinStr		+= addRowTwoCol("Magnitude"		, "<input class='quakeInput' id='magintude_" + this.ID + "' type='text' value='" + this.magnitude + "'></input>");
+	infoWinStr		+= addRowTwoCol("Event Time"	, "<input class='quakeInput' id='time_" + this.ID + "' type='text' value='" + this.time + "'></input> Seconds");
+	infoWinStr		+= addRowTwoCol("S-Wave Speed"	, "<input class='quakeInput' id='speed_" + this.ID + "' type='text' value='" + this.depth + "'></input> M/S");
+	infoWinStr		+= addRowTwoCol("Depth"			, "<input class='quakeInput' id='depth_" + this.ID + "' type='text' value='" + this.depth + "'></input> KM");
+	infoWinStr		+= "</table>";
+	infoWinStr		+= "<div style=\"text-align:center; width: 100%;\" >";
+	infoWinStr		+= "<button onclick='saveQuake("+this.ID+");'>Save</button>"
+	infoWinStr		+= "</div>";
+	infoWinStr		+= "</div>";
+	return infoWinStr;
+}
+
 function saveQuake(ID){
 	var quake = getQuake(ID);
 
@@ -130,12 +144,12 @@ function saveQuake(ID){
 	var speed = $("#speed_"+ID).val();
 	var depth = $("#depth_"+ID).val();
 
-	if( (isNumber(mag)) && (parseFloat(mag) > 0) && (parseFloat(mag) < 10) ){
-		quake.magnitude = parseFloat(mag);	
+	if( (isNumber(mag)) && (parseFloat(mag) > 0) && (parseFloat(mag) < 10.1) ){
+		quake.magnitude = parseFloat(mag);
 	}else{
 		//Throw Error!
 		makeQuakeError("#magintude_"+ID,"Please input a value between 0 and 10.");
-		return;
+		return false;
 	}
 	
 	if( (isNumber(time)) && (parseFloat(time) >= 0) ){
@@ -162,6 +176,7 @@ function saveQuake(ID){
 		return;
 	}
 	
+	quake.infoWin.setContent( quake.getInfoWindowHTML() );
 	quake.infoWin.close();
 }
 

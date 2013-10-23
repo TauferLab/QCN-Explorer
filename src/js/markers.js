@@ -1,8 +1,3 @@
-<?php
-	require_once("config.inc");
-	header("Content-Type: text/javascript");
-?>
-
 // QCN Web Simulator
 // This file is part of the QCN Web Simulator, which is based on EmBOINC
 // 
@@ -31,7 +26,7 @@ var markerArray = [];
 //------ Marker 'Class' -------\\
 function Marker(location,type,ID){
 	var color = COLORS[type%(COLORS.length)][0];
-	var image = '<?php echo $siteURL?>icon/mm_20_'+ color + '.png';
+	var image = siteURL + 'icon/mm_20_'+ color + '.png';
 	
 	if(ID==null)
 		this.ID = ++sensorID;

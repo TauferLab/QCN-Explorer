@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 	/*
 	 * QCN Explorer
 	 *
@@ -15,19 +16,38 @@
 	 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 	 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	 *
-	 * Filename: load.php
+	 * Filename: version.php
 	 * Author: Sam Schlachter
-	 * Description: 
+	 * Description: This file 
 	 *
 	 */
-
+	 
+	require_once("src/php/template.inc");
 	require_once("src/php/config.inc");
-	require_once("src/php/save_load.inc.php");
 	
-	if(isset($_GET["ID"])){
-		echo file_get_contents($JSON_FILES_FOLDER.$_GET["ID"].".json");
-	}
-	if(isset($_GET["USER_ID"])){
-		echo json_encode( getUsersSims($_GET["USER_ID"]) );	
-	}	
-?>
+	?>
+
+<html>
+<head>
+
+<title> QCN Explorer - Version History </title>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/common.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/version.css" />
+
+</head>
+
+<body>
+	<?php printHeader(); ?>
+	
+		<div id="versionInfo">
+		
+			<h2>Version History</h2>
+			
+			<p> <b>v0.5</b> - Oct. 8, 2013 - Initial Release </p>
+		
+		</div>
+	
+	<?php printFooter(); ?>
+</body>
+</html>

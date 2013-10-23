@@ -66,7 +66,7 @@
 	*/
 
 	if(isset($_GET['id'])){
-		require_once('inc/config.inc');
+		require_once('src/php/config.inc');
 		
 		$sim_id = $_GET['id'];
 		

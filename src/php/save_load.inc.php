@@ -119,9 +119,13 @@
 		return $newMarker;
 	}
 	
-	function makeMarkersFromAreas($areas){
+	function makeMarkersFromAreas($areas, $numHosts){
+	    global $HOSTLIMIT;
+	    
 		$newMarkers = array();
 		$nextID = 0;
+		
+		$numHosts = 0;
 	
 		foreach($areas as $area){
 			$limits = getLimits($area);
@@ -129,6 +133,10 @@
 			//var_dump($limits);
 			
 			$numNewMarkers = $area["numSensor"];
+			
+			if( $numNewMarkers + $numHosts > $HOSTLIMIT ){
+    			$numNewMarkers = $numNewMarkers - $HOSTLIMIT;
+			}
 			
 			$sum = 0;
 	
@@ -145,6 +153,8 @@
 					
 				$newMarkers[] = makeMarker($nextID++,$area["type"],$newLat,$newLng);
 			}
+			
+			$numHosts += $numNewMarkers;
 		}
 		
 		//echo "Average Tries: " . $sum/$numNewMarkers . "\n"; 

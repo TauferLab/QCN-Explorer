@@ -23,7 +23,7 @@
 	 */		
 	//ini_set("memory_limit","512M");
 	
-	require_once("inc/config.inc");
+	require_once("src/php/config.inc");
 	
 	$id_next = false;
 	$id = "";
@@ -76,6 +76,7 @@
 	}
 	
 	function readHostsFromXML(){
+	    global $HOSTLIMIT;
 		global $QCN_TRACES_FOLDER;
 		global $id;
 	
@@ -83,6 +84,10 @@
 		$hostsXML = file_get_contents($hostsFname);
 		
 		$hostsXML = explode("\n", $hostsXML);
+
+        if( count($hostsXML) > $HOSTLIMIT ){
+            $hostsXML = array_slice($hostsXML,0,$HOSTLIMIT);
+        }
 
 		$hosts = array();
 		
@@ -173,8 +178,6 @@
 			foreach($quakes as $quake){
 				$distance = hypo_distance($host["location"]["lat"],$host["location"]["lng"],$quake["location"]["lat"],$quake["location"]["lng"],$quake["depth"]);
 				
-				//$host["distances"][$quake["ID"]] = $distance;
-				
 				/* calculate vector sum of acceleration of S-wave
 			       equation taken from Chung et. al (2011)
 			       |a| = 1/b*exp((M-c*ln(R)-d)/a)
@@ -188,15 +191,79 @@
 			    
 			    $modSwaveSpeed = $quake["swaveSpeed"] * $speedVar;
 			    
-			    $secondaryTriggerTime = $quake["time"] + $distance/$modSwaveSpeed;
-				$secondaryTriggerMag  = 0.555555555556*exp(0.8*($quake["magnitude"] - 0.8*log($distance) - 3.25))*$magVar;
-				$host["triggers"][]   = makeTrigger($secondaryTriggerTime,$secondaryTriggerMag,$distance);
-				
-			
-				$primaryTriggerTime = $quake["time"] + $distance/($modSwaveSpeed*1.732); 
+			    
+			    $secondaryTriggerMag  = 0.555555555556*exp(0.8*($quake["magnitude"] - 0.8*log($distance) - 3.25))*$magVar;
+			    
+			    // wave is ignored if < 0.01 and has 50% chance of registering if between 0.01 and 0.02
+			    if( $secondaryTriggerMag > 0.01 ){
+    			    $rand = mt_rand() / mt_getrandmax();
+			    
+			        if( $primaryTriggerMag > 0.02 || $rand > 0.5 ){
+        			    $secondaryTriggerTime = $quake["time"] + $distance/$modSwaveSpeed;
+        			    $host["triggers"][]   = makeTrigger($secondaryTriggerTime,$secondaryTriggerMag,$distance);    
+    			    }
+			    }
+			    
 				$primaryTriggerMag  = $secondaryTriggerMag*0.2;
-				$host["triggers"][] = makeTrigger($primaryTriggerTime,$primaryTriggerMag,$distance);
+				
+				
+				// wave is ignored if < 0.01 and has 50% chance of registering if between 0.01 and 0.02
+			    if( $primaryTriggerMag > 0.01 ){
+			        $rand = mt_rand() / mt_getrandmax();
+			    
+			        if( $primaryTriggerMag > 0.02 || $rand > 0.5 ){
+    			         $primaryTriggerTime = $quake["time"] + $distance/($modSwaveSpeed*1.732); 
+    			         $host["triggers"][] = makeTrigger($primaryTriggerTime,$primaryTriggerMag,$distance);   
+			        }
+			    }
+				
 			}
+			
+			// Create false triggers if hosts aren't perfect
+			$numFalseTriggersPerDay = 1;
+			/*
+			$numFalseTriggers = 2;
+			
+			for( $q  = 0; $q < $numFalseTriggers; $q++ ){
+    			$mag = gauss_ms(0.89,1.02,1.0,0.08);
+    			$time = $q*2;
+    			$distance = 0;
+    			$host["triggers"][] = makeTrigger($time,$mag,$distance);
+			}
+			*/
+			/*
+                if (!sim_params.perfect) {
+                    double mean_triggers = qcn_host->daily_false_triggers*
+                                           result_secs_remaining/86400.0;
+                    int trigger_time;
+            
+                    for (int num_triggers =
+                                (int)utils.rand_gaussian(mean_triggers,mean_triggers*0.33) + 0.5;
+                            num_triggers > 0; num_triggers--) {
+                        //uniformly distribute trigger times
+                        trigger_time = simobj.get_simulatedTime() + rand() % result_secs_remaining;
+                        sprintf(buf,"%d",trigger_time);
+                        xml_data[3] = string(buf);
+                        sprintf(buf,"%lf",0.5);
+                        xml_data[4] = string(buf); //significance factor == 0.5 for false trigger
+                        sprintf(buf,"%lf",utils.Weibull(0.89,1.02)); //magnitude
+                        xml_data[5] = string(buf);
+                        if (trigger_time < sim_end_time) {
+                            trickles.push_front(new TRICKLE_UP(result->name,
+                                                               trigger_time + trickleLatency(),
+                                                               (char*)"trigger",
+                                                               xml_data));
+            
+                            if (rawOutFile) {
+                                fprintf(rawOutFile,TRIGGER_OUTPUT_FORMAT,
+                                        (int)(trigger_time-simobj.initial_time),
+                                        qcn_host->latitude,qcn_host->longitude,
+                                        xml_data[5].c_str());
+                            }
+                        }
+                    }
+                }
+			*/
 		}
 		
 		return $hosts;

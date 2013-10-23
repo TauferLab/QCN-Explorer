@@ -1,0 +1,93 @@
+#contactInfo{
+	margin: 2%;
+	width : 96%;
+	height : 96%;
+}
+
+h2{
+	text-align: center;
+}
+
+#contactMessage{
+    text-align: center;
+}
+
+#contactLeftCol{
+    width: 32%;
+    float: left;
+}
+
+#contactRightCol{
+    width: 66%;
+    float: right;
+    height: 100%;
+}
+
+#messageSec{
+    height: 100%;
+    text-align: center;
+}
+
+input{
+    background: #fff;
+    border-bottom: 1px solid #cecece;
+    position: relative;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    width: 90%;
+    font-size: 16;
+    margin: 10px auto;
+    background: #efefef;
+}
+
+.leftSec{
+    //height: 11%;
+    margin-bottom: 5%;
+    text-align:center;
+}
+
+.leftSec .sectionHeader{
+    margin-bottom: 0;
+}
+
+textarea{
+    background: #fff;
+    border-bottom: 1px solid #cecece;
+    position: relative;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    width: 90%;
+    height: 81%;
+    font-size: 14px;
+    margin: 10px auto;
+    background: #efefef;
+    resize: none;
+}
+
+#inputSec{
+    height: 65%;
+}
+
+#submitSec{
+    text-align:center;
+}
+
+#submitBtn{
+    margin: 20px auto;
+}
+
+#contactBody{
+    text-align: center;
+}
+
+#errorMsg{
+    color: #a31313;
+}

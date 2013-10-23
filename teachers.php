@@ -22,8 +22,8 @@
 	 *
 	 */
 	 
-	require_once("inc/template.inc");
-	require_once("inc/config.inc");
+	require_once("src/php/template.inc");
+	require_once("src/php/config.inc");
 	
 	?>
 
@@ -32,12 +32,12 @@
 
 <title> QCN Explorer - Teacher Resources </title>
 
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/common.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/teachers.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/common.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/teachers.css" />
 
 </head>
 
-<body onload="initialize()">
+<body>
 	<?php printHeader(); ?>
 	
 		<div id="teacherInfo">

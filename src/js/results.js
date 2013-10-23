@@ -20,8 +20,6 @@
 // Author: Sam Schlachter
 // Description: This file 
 
-<?php require_once("./config.inc"); ?>
-
 // Load the Visualization API and the piechart package.
 google.load('visualization', '1', {'packages':['corechart']});
     
@@ -56,7 +54,7 @@ var timer = null;
 
 function getResultsData(){
 	$.ajax({
-		url: "<?php echo $siteURL?>get_animation_data.php?&id="+sim_id,
+		url: siteURL + "get_animation_data.php?&id="+sim_id,
 		dataType:"json",
 		success: function(data){
 			$("#rawData").val(JSON.stringify(data));
@@ -112,7 +110,7 @@ function initAnimation(json) {
 	// Init quakes
 	quakes.forEach(function(element, index, array){
 		var quakeLoc = new google.maps.LatLng(element.location.lat, element.location.lng);
-		var image = "<?php echo $siteURL?>icon/q_icon.png";
+		var image = siteURL + "icon/q_icon.png";
 		element.marker = new google.maps.Marker({position: quakeLoc, map: map, icon: image, visible: false});
 	});
 		
@@ -162,7 +160,7 @@ function findMaxTrigger(){
 function initMarkers(){
 	sensors.forEach(function(element, index, array){
 		var color = COLORS[0];
-		var image = '<?php echo $siteURL?>icon/animation_markers/qa_'+ color + '.png';
+		var image = siteURL + 'icon/animation_markers/qa_'+ color + '.png';
 		var location   = new google.maps.LatLng(element.location.lat, element.location.lng);
 		
 		element.marker = new google.maps.Marker({position: location, map: map, icon: image});
@@ -210,7 +208,7 @@ function updateMap(){
 		});
 		
 		if(color != element.lastColor){
-			var image = '<?php echo $siteURL?>icon/animation_markers/qa_'+ color + '.png';
+			var image = siteURL + 'icon/animation_markers/qa_'+ color + '.png';
 			element.marker.setIcon(image);
 			element.lastColor = color;
 		}

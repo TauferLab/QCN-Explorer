@@ -22,38 +22,38 @@
 */
 
 	.marker.usel{
-		background-image: url(../icon/Bmu.png);
+		background-image: url("../../icon/Bmu.png");
 	}
 	
 	.marker.sel{
-		background-image: url(../icon/Bmd.png);
+		background-image: url("../../icon/Bmd.png");
 	}
 	
 	.area.usel{
-		background-image: url(../icon/Bpu.png);
+		background-image: url("../../icon/Bpu.png");
 	}
 	
 	.area.sel{
-		background-image: url(../icon/Bpd.png);
+		background-image: url("../../icon/Bpd.png");
 	}
 
 	.hand.sel{
-		background-image: url(../icon/Bsd.png);
+		background-image: url("../../icon/Bsd.png");
 	}
 	.hand.usel{
-		background-image: url(../icon/Bsu.png);
+		background-image: url("../../icon/Bsu.png");
 	}
 	.quake.sel{
-		background-image: url(../icon/button_quake_down.png);
+		background-image: url("../../icon/button_quake_down.png");
 	}
 	.quake.usel{
-		background-image: url(../icon/button_quake_up.png);
+		background-image: url("../../icon/button_quake_up.png");
 	}
 	.options.sel{
-		background-image: url(../icon/button_options_down.png);
+		background-image: url("../../icon/button_options_down.png");
 	}
 	.options.usel{
-		background-image: url(../icon/button_options_up.png);
+		background-image: url("../../icon/button_options_up.png");
 	}
 	
 	.toolButton{

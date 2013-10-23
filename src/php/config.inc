@@ -21,28 +21,32 @@
 	// Author: Sam Schlachter
 	// Description: This file 
 
-	//$siteURL = "http://docktest.gcl.cis.udel.edu/qcnexplorer/";
-	$siteURL = "http://172.16.110.181/emboinc/";
-	$DEBUG = true;
+	//siteURL must have trailing slash
+	$siteURL = "http://qcnexplorer.org/";
+	$DEBUG = false;//true;
+	
+	$currentSWrev = 0.5;
+	
+	$contactEmails = ["saschlac@udel.edu", "taufer@udel.edu"];
 	
 	// Timezone
 	date_default_timezone_set('America/New_York');
 	
 	// Folders
 		// Simulator Input Folders
-		$HOST_TRACES_FOLDER = __DIR__."/../files/input/host/";
-		$USER_TRACES_FOLDER = __DIR__."/../files/input/user/";
-		$WU_TRACES_FOLDER = __DIR__."/../files/input/wu/";
-		$QUAKE_TRACES_FOLDER = __DIR__."/../files/input/quakes/";
-		$QCN_TRACES_FOLDER = __DIR__."/../files/input/qcn_host/";
+		$HOST_TRACES_FOLDER = __DIR__."/../../files/input/host/";
+		$USER_TRACES_FOLDER = __DIR__."/../../files/input/user/";
+		$WU_TRACES_FOLDER = __DIR__."/../../files/input/wu/";
+		$QUAKE_TRACES_FOLDER = __DIR__."/../../files/input/quakes/";
+		$QCN_TRACES_FOLDER = __DIR__."/../../files/input/qcn_host/";
 		
 		// Simulator Output Folders
-		$ANIMATION_FOLDER = __DIR__."/../files/output/animations/";
-		$LOG_OUTPUT_FOLDER = __DIR__."/../files/output/logs/";
-		$TRICKLES_OUT_FOLDER = __DIR__."/../files/output/trickles/";
+		$ANIMATION_FOLDER = __DIR__."/../../files/output/animations/";
+		$LOG_OUTPUT_FOLDER = __DIR__."/../../files/output/logs/";
+		$TRICKLES_OUT_FOLDER = __DIR__."/../../files/output/trickles/";
 		
 		// 'Meta' Folders 
-		$JSON_FILES_FOLDER = __DIR__."/../files/JSONfiles/";
+		$JSON_FILES_FOLDER = __DIR__."/../../files/JSONfiles/";
 		
 		
 	// Queue Logging
@@ -51,12 +55,13 @@
 	$LOG_DATE_STRING = "Y_m_d_H_i_s";
 		
 	// Database info
-	$mysql_user = 'emboinc';
-	$mysql_pass = 'lol12345';
+	$mysql_user = 'qcnExplorer';
+	$mysql_pass = 'H6pmSQfLEZAKTmNm';
 	$mysql_host = 'localhost';
-	$mysql_db = 'emboinc';
+	$mysql_db = 'qcnExplorer';
 	
 	//Exe
 	$SIM_EXE = "php ./emboinc.php";
+	$HOSTLIMIT = 1000;
 	
 ?>

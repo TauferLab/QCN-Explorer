@@ -21,8 +21,8 @@
 	 *
 	 */
 
-	require_once("inc/config.inc");
-	require_once("inc/save_load.inc.php");
+	require_once("src/php/config.inc");
+	require_once("src/php/save_load.inc.php");
 	
 	
 	if($DEBUG){
@@ -49,7 +49,15 @@
 		
 		//Collect All Sensors
 		$markerSensors = $sim['markers'];
-		$areaSensors = makeMarkersFromAreas($sim['areas']);
+		
+		$numSensors = count($markerSensors);
+		
+		if( $numSensors > $HOSTLIMIT ){
+    		$markerSensors = array_slice($markerSensors,0,$HOSTLIMIT);
+    		$areaSensors = array();
+		}else{
+    	    $areaSensors = makeMarkersFromAreas($sim['areas']);	
+		}
 		
 		$allSensors = array_merge($markerSensors,$areaSensors);
 		

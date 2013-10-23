@@ -22,8 +22,8 @@
 	 *
 	 */
 	
-	require_once("inc/template.inc");
-	require_once("inc/config.inc");
+	require_once("src/php/template.inc");
+	require_once("src/php/config.inc");
 	
 	function getFeaturedQuakes(){
 		global $mysql_host;
@@ -53,8 +53,8 @@
 
 <title> Welcome to the Earthquake Simulator </title>
 
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/common.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/index.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/common.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/index.css" />
 
 </head>
 
@@ -64,17 +64,19 @@
 		<h1 id="welcomeMessage">Welcome to QCN Explorer!</h1>
 		
 		<div class="left" id="leftCol">
-			<img id="homepageImage" src="<?php echo $siteURL?>/icon/homepage.png"\>
+			<img id="homepageImage" src="<?php echo $siteURL?>icon/homepage.png"\>
 			
 			<h3>What is it?</h3>
 			<p>Welcome to QCN Explorer! QCN Explorer is a simulator of the <a href="http://qcn.stanford.edu/">Quake Catcher Network</a>, a volunteer computing project out of Stanford University. The goal of this project is to educate people about seismology and increase the awareness of QCN. QCN Explorer allows users to simulate how the QCN responds to an earthquake with a larger number of sensors than the network currently supports. The simulator is free for anyone to use. Click below to get started!</p>
 			
-			<button id="startButton"onClick="location.href='<?php echo $siteURL?>/editor'">Build a Simulation!</button>
+			<button id="startButton"onClick="location.href='<?php echo $siteURL?>editor'">Build a Simulation!</button>
 		</div>
 		
 		<div id="rightCol" class="right">
-			<h3 id="featuredHeader">Featured Earthquakes</h3>
-			<?php getFeaturedQuakes(); ?>	
+		    <div class="rightColSec" id="featuredQuakes">
+    			<h3 class="sectionHeader">Featured Simulations</h3>
+    			<?php getFeaturedQuakes(); ?>	
+		    </div>
 		</div>
 	
 	<?php printFooter(); ?>

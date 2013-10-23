@@ -20,7 +20,7 @@
 	 * Description: 
 	 *
 	 */		
-	require_once("inc/config.inc");
+	require_once("src/php/config.inc");
 	
 	$trickle_ups_folder = $TRICKLES_OUT_FOLDER;
 	$quakes = array();

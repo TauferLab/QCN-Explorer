@@ -21,8 +21,8 @@
 	 * Description: This file 
 	 *
 	 */
-	require_once("inc/config.inc");
-	require_once("inc/save_load.inc.php");
+	require_once("src/php/config.inc");
+	require_once("src/php/save_load.inc.php");
 
 	if(isset($_GET["ID"])){
 		$sim_ID = $_GET["ID"];

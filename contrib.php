@@ -21,8 +21,8 @@
 	 * Description: 
 	 *
 	 */		
-	require_once("inc/template.inc");
-	require_once("inc/config.inc");
+	require_once("src/php/template.inc");
+	require_once("src/php/config.inc");
 	?>
 
 <html>
@@ -30,12 +30,12 @@
 
 <title> QCN Explorer - Contributors</title>
 
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/common.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/contrib.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/common.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/contrib.css" />
 
 </head>
 
-<body onload="initialize()">
+<body>
 	<?php printHeader(); ?>
 	
 	<div id="content">

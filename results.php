@@ -28,9 +28,9 @@
 	 */
 	 
 
-	require_once("inc/config.inc");	
-	require_once("inc/template.inc");
-	require_once("inc/save_load.inc.php");
+	require_once("src/php/config.inc");	
+	require_once("src/php/template.inc");
+	require_once("src/php/save_load.inc.php");
 	
 	if(isset($_GET["ID"])){
 		$sim_ID = (integer) $_GET["ID"];
@@ -65,11 +65,11 @@
 <html>
 <head>
 
-	<title> QCN Explorer - Results </title>
+	<title> QCN Explorer - Simulation Results </title>
 
 	<!-- Results Stylesheet -->
-	<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/common.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>inc/results.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $siteURL?>src/css/results.css" />
 
 	<?php if(isset($sim_ID)){ ?>
 		<!-- Google Charts -->
@@ -80,15 +80,19 @@
 			src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=true">
 		</script>
 		
+		<!-- JSON implementation for old browsers -->
+		<script language="JavaScript" src="<?php echo $siteURL?>src/js/json3.min.js"></script>
+		
 		<!-- Chart/Animation JavaScript -->	
-		<script language="JavaScript" src="<?php echo $siteURL?>inc/results.php.inc"></script>
+		<script language="JavaScript" src="<?php echo $siteURL?>src/js/results.js"></script>
 		<script language="JavaScript">
 			//TODO : Don't do this assigning JavaScript variables from PHP is bad news
-			var sim_id = <?php echo "\"$sim_ID\""; ?>
+			var sim_id  = <?php echo "\"$sim_ID\"" ?>;
+			var siteURL = <?php echo "\"$siteURL\"" ?>;
 		</script>
 		
 		<!-- Jquery -->
-		<script src="<?php echo $siteURL?>inc/jquery-latest.js"></script>
+		<script src="<?php echo $siteURL?>src/js/jquery-latest.js"></script>
 
 	<?php } ?>
 

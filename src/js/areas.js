@@ -79,7 +79,6 @@ function Area(areaObj){
 	
 	
 	google.maps.event.addListener(this.poly.infoWindow,'closeclick', function(event){
-		console.log(tutStep);
     	if(tutorial && tutStep == 12){
 			loadTut(13);
 		}		
@@ -177,7 +176,6 @@ function placeArea(){
 }
 
 function areaInfoWindowHTML(){
-	console.log(this.density);
 
 	var ret = "<h4>Area " + this.ID + " <button class='removeBtn' onclick=removeArea("+this.ID+")>Remove</button></h4>";
 	ret +="<table>";

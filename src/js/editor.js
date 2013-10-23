@@ -1,7 +1,3 @@
-<?php 
-    require_once("config.inc");
-    header("Content-Type: text/javascript");
-?>
 // QCN Web Simulator
 // This file is part of the QCN Web Simulator, which is based on EmBOINC
 // 
@@ -65,7 +61,7 @@ function initialize() {
       latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
     }
     else{	    
-		var data = $.ajax("<?php echo $siteURL?>getCoordsFromIP.php",{
+		var data = $.ajax(siteURL + "getCoordsFromIP.php",{
 			async: false
 		}).responseText;
 		
@@ -149,7 +145,7 @@ function initTables(){
 
 function preloadIcons(array) {
     $(array).each(function(){
-        $('<img/>')[0].src = "<?php echo $siteURL?>" + this;
+        $('<img/>')[0].src = siteURL + this;
     });
 }
 
@@ -218,8 +214,6 @@ function select(sensorType,shapeType){
 }
 
 function setUpListeners(){
-	console.log("called!");
-
 	if( $(".quake").hasClass("sel") ){
 		google.maps.event.addListener(map, 'click', function(event) {
 			placeQuake(event.latLng);
@@ -282,7 +276,7 @@ function saveSim(){
 	var JSONdata = simToJSON();
 	
 	$.ajax({
-			url: "<?php echo $siteURL?>save.php",
+			url: siteURL + "save.php",
 			contentType:"application/json",
 			dataType:"html",
 			type: "POST",
@@ -329,7 +323,7 @@ function runSim(data){
 	console.log("url: ","run.php?ID="+data.savedID);
 	
 	$.ajax({
-		url: "<?php echo $siteURL?>run.php?ID="+data.savedID,
+		url: siteURL + "run.php?ID="+data.savedID,
 		contentType:"application/json",
 		dataType:"html",
 		type: "POST",
@@ -350,7 +344,7 @@ function redirectToResults(data){
 	data = jQuery.parseJSON(data);
 	
 	if(data.success == "true"){
-		window.location.href = '<?php echo $siteURL?>results/'+data.simID;
+		window.location.href = siteURL + 'results/'+data.simID;
 	}
 	else{
 		$("#loadMsg").css({ "display" : "none" });
@@ -510,7 +504,7 @@ function toggleVal(doc){
 
 function loadSim(loadID){
 	var JSON = $.ajax({
-		url: "<?php echo $siteURL?>load.php?ID="+loadID,
+		url: siteURL + "load.php?ID="+loadID,
 		type: 'GET',
 		dataType:"html",
 		async: false
@@ -520,7 +514,7 @@ function loadSim(loadID){
 	var simobj = jQuery.parseJSON( JSON );
 	
 	if(simobj==null){
-		window.location.href = '<?php echo $siteURL?>editor/'
+		window.location.href = siteURL + 'editor/'
 	}
 	
 	simobj = simobj.simulation;

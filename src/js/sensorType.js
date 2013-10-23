@@ -1,8 +1,3 @@
-<?php
-	require_once("config.inc");
-	header("Content-Type: text/javascript");
-?>
-
 // QCN Web Simulator
 // This file is part of the QCN Web Simulator, which is based on EmBOINC
 // 
@@ -209,7 +204,7 @@ function addSensorTypeRow(ID){
 	var color = COLORS[ID%(COLORS.length)][0];
 
 	var newHTML = "<div class='typeRow'>"
-	newHTML += '<img class="toolIcon" src="<?php echo $siteURL?>icon/mm_20_'+ color + '.png">';
+	newHTML += '<img class="toolIcon" src="' + siteURL + 'icon/mm_20_'+ color + '.png">';
 	newHTML += '<div class="toolLabel">Type ' + ID + '</div>';
 	newHTML += '<div class="toolButton options usel" id="o'+ID+'" alt="Options"></div>';	
 	newHTML += '<div class="toolButton area usel" id="a'+ID+'" onclick=\'select('+ID+',"area")\'></div>';
