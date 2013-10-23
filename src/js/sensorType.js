@@ -46,13 +46,9 @@ var TRIG_PROB = 0.5;
 
 
 //------ SensorType 'Class' -------\\
-function SensorType(ID, sensorTypeIn){
+SensorType = function (ID, sensorTypeIn){
 	this.ID = ID;
-	this.document = addSensorTypeRow(ID);
-	this.modifyHTML = sensorTypeModifyHTML;
-	this.toJSON = sensorTypeToJSON;
-	this.remove = sensorTypeRemove;
-	this.addSettingFrame = addSensorTypeSettingFrame;
+	this.document = SensorType.addRow(ID);
 	
 	//Properties
 	if(sensorTypeIn==null){
@@ -131,7 +127,7 @@ function SensorType(ID, sensorTypeIn){
     });
 }
 
-function sensorTypeToJSON(){
+SensorType.prototype.toJSON = function(){
 	return "{"+
 			"\"ID\":\""+this.ID+"\","+
 			"\"on_frac\":\""+$('#on_frac_'+this.ID).val()+"\","+
@@ -157,10 +153,7 @@ function sensorTypeToJSON(){
 		"}";
 }
 
-function sensorTypeModifyHTML(){
-	//$('#sensorTypeTitle_'+this.ID).css("background-color",COLORS[this.ID%(COLORS.length)][1]);
-	//$('#sensorTypeTitle_'+this.ID).html("<b>Sensor Type " + this.ID + "</b>");
-	//$('#saveTypeButton_'+this.ID).attr("onClick","saveType("+this.ID+");");
+SensorType.prototype.modifyHTML = function(){
 	$('#on_frac_'+this.ID).val(this.on_frac);
 	$('#conn_frac_'+this.ID).val(this.conn_frac);
 	$('#act_frac_'+this.ID).val(this.act_frac);
@@ -183,7 +176,7 @@ function sensorTypeModifyHTML(){
 	$('#trig_prob_'+this.ID).val(this.trig_prob);
 }
 
-function sensorTypeRemove(){
+SensorType.prototype.remove = function(){
 	for(x in sensorTypeArray){
 		if(sensorTypeArray[x].ID == this.ID){
 			buttonTable.removeChild(sensorTypeArray[x].document);
@@ -193,14 +186,14 @@ function sensorTypeRemove(){
 	}
 }
 
-function getSensorType(ID){
+SensorType.get = function(ID){
 	for(i in sensorTypeArray){
 		if(sensorTypeArray[i].ID==ID)
 			return sensorTypeArray[i];
 	}
 }
 
-function addSensorTypeRow(ID){
+SensorType.addRow = function(ID){
 	var color = COLORS[ID%(COLORS.length)][0];
 
 	var newHTML = "<div class='typeRow'>"
@@ -215,7 +208,7 @@ function addSensorTypeRow(ID){
 	select(0);
 }
 
-function addSensorTypeSettingFrame(){
+SensorType.prototype.addSettingFrame = function(){
 	var ID = this.ID;
 	var newHTML = '' +
 	'<div id="sensorTypeEditor_'+ ID +'">'+
@@ -306,21 +299,20 @@ function addSensorTypeSettingFrame(){
 	$("#sensorTypeEditorFrames").append(newHTML);
 }
 
-function pressID(ID){
-	$("#o"+ID).toggleClass("sel usel");
-}
-
-function removeAllSensorTypes(){
+SensorType.removeAll = function(){
 	var size = sensorTypeArray.length;
 	for(var i =0; i < size; i++){
 		sensorTypeArray[0].remove();
 	}
 }
 
-function addLoadedSensorTypes(SensorTypes){
+SensorType.addLoaded = function(SensorTypes){
 	totalSensorTypes = SensorTypes.length;
 	for(x in SensorTypes){
 		sensorTypeArray.push(new SensorType(SensorTypes[x].ID,SensorTypes[x]));
-		console.log("addLoadedSensorTypes");
 	}
+}
+
+SensorType.addNew = function(){
+	sensorTypeArray.push(new SensorType(++totalSensorTypes));
 }

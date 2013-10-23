@@ -30,7 +30,7 @@ var QTIME = 10;
 var QDEPTH = 15; //km
 
 //------ Quake 'Class' -------//
-function Quake(location, loadedQuake){
+Quake = function (location, loadedQuake){
 	if(loadedQuake==null){
 		this.ID = ++quakeID;
 		this.magnitude = QMAGNITUDE;
@@ -53,10 +53,6 @@ function Quake(location, loadedQuake){
 	this.gmarker = new google.maps.Marker({position: location, map: map, icon: siteURL + "icon/q_icon.png",draggable: true});
 	this.gmarker.ID = this.ID;
 	
-	this.getInfoWindowHTML = quakeGetInfoWindowHTML;
-	this.toJSON = quakeToJSON;
-	
-	//$("#quakeProperties").append( this.getInfoWindowHTML() );
 	this.infoWindowHTML = this.getInfoWindowHTML();
 	this.infoWin = new google.maps.InfoWindow({ content: this.infoWindowHTML });
 	this.infoWin.ID = this.ID;
@@ -72,14 +68,13 @@ function Quake(location, loadedQuake){
 	
 	google.maps.event.addListener(this.gmarker, 'click', function() {
 	
-    	var quake = getQuake(this.ID);
+    	var quake = Quake.get(this.ID);
     	
     	if(tutorial && tutStep == 3){
 			loadTut(4);
 		}
     	
     	quake.infoWin.open(map,quake.gmarker);
-    	
     	
     });
     
@@ -88,27 +83,18 @@ function Quake(location, loadedQuake){
     });
 }
 
-function addRowTwoCol(col1,col2){
-	var ret	 = "<tr>";
-	ret 	+= "<td>" + col1 + "</td>";
-	ret		+= "<td>" + col2 + "</td>";
-	ret		+= "</tr>";
-	
-	return ret;
-}
-
-function placeQuake(location){
+Quake.place = function (location){
 	quakeArray.push(new Quake(location));
 }
 
-function getQuake(ID){
+Quake.get = function (ID){
 	for(i in quakeArray){
 		if(quakeArray[i].ID==ID)
 			return quakeArray[i];
 	}
 }
 
-function removeQuake(ID){
+Quake.remove = function (ID){
 	for(i in quakeArray){
 		if(quakeArray[i].ID == ID){
 			quakeArray[i].infoWin.close();
@@ -120,9 +106,18 @@ function removeQuake(ID){
 	}
 }
 
-function quakeGetInfoWindowHTML(){
+Quake.prototype.getInfoWindowHTML = function (){
+    addRowTwoCol = function (col1,col2){
+    	var ret	 = "<tr>";
+    	ret 	+= "<td>" + col1 + "</td>";
+    	ret		+= "<td>" + col2 + "</td>";
+    	ret		+= "</tr>";
+    	
+    	return ret;
+	}
+
     var infoWinStr  = "<div id= 'q_" + this.ID + "_prop'>"
-    infoWinStr	    += "<h4>Earthquake " + this.ID + " <button class='removeBtn' onclick=removeQuake("+this.ID+")>Remove</button></h4>";
+    infoWinStr	    += "<h4>Earthquake " + this.ID + " <button class='removeBtn' onclick=Quake.remove("+this.ID+")>Remove</button></h4>";
 	infoWinStr		+= "<table>";
 	infoWinStr		+= addRowTwoCol("Magnitude"		, "<input class='quakeInput' id='magintude_" + this.ID + "' type='text' value='" + this.magnitude + "'></input>");
 	infoWinStr		+= addRowTwoCol("Event Time"	, "<input class='quakeInput' id='time_" + this.ID + "' type='text' value='" + this.time + "'></input> Seconds");
@@ -130,21 +125,25 @@ function quakeGetInfoWindowHTML(){
 	infoWinStr		+= addRowTwoCol("Depth"			, "<input class='quakeInput' id='depth_" + this.ID + "' type='text' value='" + this.depth + "'></input> KM");
 	infoWinStr		+= "</table>";
 	infoWinStr		+= "<div style=\"text-align:center; width: 100%;\" >";
-	infoWinStr		+= "<button onclick='saveQuake("+this.ID+");'>Save</button>"
+	infoWinStr		+= "<button onclick='Quake.save("+this.ID+");'>Save</button>"
 	infoWinStr		+= "</div>";
 	infoWinStr		+= "</div>";
 	return infoWinStr;
 }
 
-function saveQuake(ID){
-	var quake = getQuake(ID);
+Quake.save = function (ID){
+    isNum = function (n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+	var quake = Quake.get(ID);
 
 	var mag   = $("#magintude_"+ID).val();
 	var time  = $("#time_"+ID).val();
 	var speed = $("#speed_"+ID).val();
 	var depth = $("#depth_"+ID).val();
 
-	if( (isNumber(mag)) && (parseFloat(mag) > 0) && (parseFloat(mag) < 10.1) ){
+	if( (isNum(mag)) && (parseFloat(mag) > 0) && (parseFloat(mag) < 10.1) ){
 		quake.magnitude = parseFloat(mag);
 	}else{
 		//Throw Error!
@@ -152,7 +151,7 @@ function saveQuake(ID){
 		return false;
 	}
 	
-	if( (isNumber(time)) && (parseFloat(time) >= 0) ){
+	if( (isNum(time)) && (parseFloat(time) >= 0) ){
 		quake.time = parseFloat(time);	
 	}else{
 		//Throw Error!
@@ -160,7 +159,7 @@ function saveQuake(ID){
 		return;
 	}
 	
-	if( (isNumber(speed)) && (parseFloat(speed) > 0) ){
+	if( (isNum(speed)) && (parseFloat(speed) > 0) ){
 		quake.swaveSpeed = parseFloat(speed);	
 	}else{
 		//Throw Error!
@@ -168,7 +167,7 @@ function saveQuake(ID){
 		return;
 	}
 	
-	if( (isNumber(depth)) && (parseFloat(depth) > 0) ){
+	if( (isNum(depth)) && (parseFloat(depth) > 0) ){
 		quake.depth = parseFloat(depth);	
 	}else{
 		//Throw Error!
@@ -180,11 +179,7 @@ function saveQuake(ID){
 	quake.infoWin.close();
 }
 
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
-function makeQuakeError(selector,message){
+Quake.makeError = function (selector,message){
 	$(selector).qtip({ // Grab some elements to apply the tooltip to
 	    content: {
             text: message
@@ -207,7 +202,7 @@ function makeQuakeError(selector,message){
     });
 }
 
-function quakeToJSON(){
+Quake.prototype.toJSON = function (){
 	var loc = this.gmarker.getPosition();
 	return "{" +
 		"\"ID\":\""			+ this.ID + "\"," +
@@ -222,13 +217,13 @@ function quakeToJSON(){
 	"}";
 }
 
-function removeAllQuakes(){
+Quake.removeAll = function (){
 	while(quakeArray.length>0){
 		removeQuake(quakeArray[0].ID);
 	}
 }
 
-function addLoadedQuakes(quakes){
+Quake.addLoaded = function (quakes){
 	var loc;
 	for(x in quakes){
 		//console.debug(quakes[x]);

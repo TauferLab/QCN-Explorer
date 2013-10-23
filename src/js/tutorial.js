@@ -1,6 +1,6 @@
 var tutStep = 0;
 
-function loadTut(n){
+loadTut = function (n){
 
 	$("#msgBox").css({"opacity":0});
 	
@@ -219,7 +219,7 @@ function loadTut(n){
 	tutStep = n;
 }
 
-function showMsgBox(msg){
+showMsgBox = function (msg){
 	$("#msgBox").html(msg);
 	$("#msgBox").animate({"opacity":1},300);
 }

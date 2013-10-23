@@ -44,7 +44,7 @@ var COLORS = [["black","#000000"],["red", "#ff0000"], ["blue", "#0000ff"], ["pur
 var icons = ["icon/Bmd.png","icon/Bsu.png","icon/Bmu.png","icon/button_quake_down.png","icon/Bpd.png","icon/button_quake_up.png","icon/Bpu.png","icon/close.png","icon/q_icon.png","icon/Bsd.png","icon/vertex.png"];
 
 //--------- Page Initialization  --------------//
-function initialize() {
+initialize = function() {
 
 	// --- Default Values --- //
 	var CENTER_LAT = 33.312266545904116;
@@ -99,7 +99,7 @@ function initialize() {
 	    loadSim(loadSimID);
     }
     else{
-		initTables();    
+		SensorType.addNew();   
     }
     
 	select(0);
@@ -139,21 +139,13 @@ function initialize() {
    
 }
 
-function initTables(){
-	addNewSensorType();
-}
-
-function preloadIcons(array) {
+preloadIcons = function(array) {
     $(array).each(function(){
         $('<img/>')[0].src = siteURL + this;
     });
 }
 
-function addNewSensorType(){
-	sensorTypeArray.push(new SensorType(++totalSensorTypes));
-}
-
-function showTutorialPopup(){
+showTutorialPopup = function(){
 	if( getCookie("visited") == null ){
 		setCookie("visited",1,10000);
 		
@@ -182,7 +174,7 @@ function showTutorialPopup(){
 	}
 }
 
-function select(sensorType,shapeType){
+select = function(sensorType,shapeType){
 	google.maps.event.clearListeners(map,'click');
 	
 	$(".sel").toggleClass('usel sel');
@@ -202,7 +194,7 @@ function select(sensorType,shapeType){
 		}
 		else if (shapeType =='area'){
 			$("#a"+sensorType).toggleClass('usel sel');
-			placeArea();
+			Area.place();
 		}
 	}
 	else{
@@ -213,10 +205,10 @@ function select(sensorType,shapeType){
 	}
 }
 
-function setUpListeners(){
+setUpListeners = function(){
 	if( $(".quake").hasClass("sel") ){
 		google.maps.event.addListener(map, 'click', function(event) {
-			placeQuake(event.latLng);
+			Quake.place(event.latLng);
 			if(tutorial && tutStep == 2){
 				loadTut(3);
 			}
@@ -238,13 +230,13 @@ function setUpListeners(){
 
 //---- Save Simulation -----//
 
-function saveSim(){
+saveSim = function(){
 	var error = false;
 	
 	//Check to see if the sim has a name
 	if($("#sim_name").val()== ""){
 		var message = "Please give your simulation a name."
-		makeQuakeError("#sim_name", message);		
+		Quake.makeError("#sim_name", message);		
 		error = true;
 	}
 	
@@ -252,7 +244,7 @@ function saveSim(){
 	if(markerArray.length == 0 && areaArray.length == 0){
 		// Throw Error
 		var message = "Please place at least one Sensor or Area."
-		makeQuakeError("#m1", message);		
+		Quake.makeError("#m1", message);		
 		error = true;
 	}
 		
@@ -260,7 +252,7 @@ function saveSim(){
 	if(quakeArray.length == 0){
 		// Throw Error
 		var message = "Please place at least one Earthquake."
-		makeQuakeError("#quakeTool", message);		
+		Quake.makeError("#quakeTool", message);		
 		error = true;
 	}
 	
@@ -287,20 +279,20 @@ function saveSim(){
 			error: function(){
 				$("#loadMsg").css({ "display" : "none" });
 				$("#loadBG").css({ "display" : "none" });
-				makeQuakeError("#runBtn", "Request Error. Try again?");
+				Quake.makeError("#runBtn", "Request Error. Try again?");
 			}
 		});
 
 }
 
-function runSim(data){
+runSim = function(data){
 	try{
 		data = jQuery.parseJSON(data);
 	}
 	catch(err){
 		$("#loadMsg").css({ "display" : "none" });
 		$("#loadBG").css({ "display" : "none" });
-		makeQuakeError("#runBtn", "Something went wrong saving your simulation. Try again?");
+		Quake.makeError("#runBtn", "Something went wrong saving your simulation. Try again?");
 		return;
 	}
 	
@@ -309,7 +301,7 @@ function runSim(data){
 	if(data.savedID == null){
 		$("#loadMsg").css({ "display" : "none" });
 		$("#loadBG").css({ "display" : "none" });
-		makeQuakeError("#runBtn", "Something went wrong with your simulation. Try again?");	
+		Quake.makeError("#runBtn", "Something went wrong with your simulation. Try again?");	
 		return;
 	}
 	
@@ -333,12 +325,12 @@ function runSim(data){
 		error: function(){
 			$("#loadMsg").css({ "display" : "none" });
 			$("#loadBG").css({ "display" : "none" });
-			makeQuakeError("#runBtn", "Request Error. Try again?");
+			Quake.makeError("#runBtn", "Request Error. Try again?");
 		}
 	});
 }
 
-function redirectToResults(data){
+redirectToResults = function(data){
 	console.log(data);
 
 	data = jQuery.parseJSON(data);
@@ -349,12 +341,12 @@ function redirectToResults(data){
 	else{
 		$("#loadMsg").css({ "display" : "none" });
 		$("#loadBG").css({ "display" : "none" });
-		makeQuakeError("#runBtn", "Something went wrong with running your simulation. Try again?");
+		Quake.makeError("#runBtn", "Something went wrong with running your simulation. Try again?");
 	}
 	
 }
 
-function addIDtoCookie(simID){
+addIDtoCookie = function(simID){
 	var cookieName = "QCNexpSave";
 	
 	var preVal = getCookie(cookieName);
@@ -373,32 +365,32 @@ function addIDtoCookie(simID){
 	
 }
 
-function simToJSON(){
+simToJSON = function(){
 	var rawJSON = "{"+
 	"	\"simulation\":{"+
-			getParameters()+","+
-			getEarthquakes()+","+
-			getAreas()+","+
-			getSensors()+","+
-			getSensorTypes()+
+			getParametersJSON()+","+
+			getEarthquakesJSON()+","+
+			getAreasJSON()+","+
+			getSensorsJSON()+","+
+			getSensorTypesJSON()+
 	"	}"+
 	"}";
 	
 	return escapeJSON(rawJSON);
 }
 
-function escapeJSON(string){
+escapeJSON = function(string){
 
 	string = replaceAll("\n","\\\\n",string);//string.replace("/\n/g","\\\\n");
 
 	return string;
 }
 
-function replaceAll(find, replace, str) {
+replaceAll = function(find, replace, str) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
 
-function getParameters(){
+getParametersJSON = function(){
 	var ret = "\"parameters\":{\"ID\":\""+currentSimID+"\"";
 	
 	var advancedOptions = ['sim_conn','cuttime','start_time','debug','sim_seed','perfect'];
@@ -426,7 +418,7 @@ function getParameters(){
 	return ret + "}";
 	
 }
-function getEarthquakes(){
+getEarthquakesJSON = function(){
 	var first = true;
 	var ret =  "\"earthquakes\":[";
 	
@@ -439,7 +431,7 @@ function getEarthquakes(){
 	return ret + "]";
 }
 
-function getAreas(){
+getAreasJSON = function(){
 	var first = true;
 	var ret = "\"areas\":[";
 	
@@ -452,7 +444,7 @@ function getAreas(){
 	return ret +"]";
 }
 
-function getSensors(){
+getSensorsJSON = function(){
 	//markerArray
 	var first = true;
 	var ret = "\"markers\":[";
@@ -466,7 +458,7 @@ function getSensors(){
 	return ret + "]";
 }
 
-function getSensorTypes(){
+getSensorTypesJSON = function(){
 	var first = true;
 	var ret = "\"SensorTypes\":[";
 	
@@ -479,30 +471,7 @@ function getSensorTypes(){
 	return ret + "]";
 }
 
-// ---- Advanced Menu Stuff ---- \\
-function openMenu(menuID){ 
-	$("#popups").fadeIn("fast"); 
-	//$("#popup_bg").css({"opacity": "0.7"});  
-	//$("#popup_bg").fadeIn("fast");  
-	$(menuID).fadeIn("fast");  
-	
-}
-
-function closeMenu(menuID){  
-	$("#popups").fadeOut("fast");  
-	$(menuID).fadeOut("fast");  
-}  
-
-function toggleVal(doc){
-	var temp = $(doc);
-	if(temp.val() == 'true'){
-		temp.val(false);
-	}
-	else
-		temp.val(true);
-}
-
-function loadSim(loadID){
+loadSim = function(loadID){
 	var JSON = $.ajax({
 		url: siteURL + "load.php?ID="+loadID,
 		type: 'GET',
@@ -520,21 +489,21 @@ function loadSim(loadID){
 	simobj = simobj.simulation;
 	
 	saveParam(simobj.parameters);
-	addLoadedSensorTypes(simobj.SensorTypes);	
-	addLoadedMarkers(simobj.markers);	
-	addLoadedAreas(simobj.areas);
-	addLoadedQuakes(simobj.earthquakes);
+	SensorType.addLoaded(simobj.SensorTypes);	
+	Marker.addLoaded(simobj.markers);	
+	Area.addLoaded(simobj.areas);
+	Quake.addLoaded(simobj.earthquakes);
 		
 }
 
-function clearSimEnviorment(){
-	removeAllSensorTypes();
-	removeAllMarkers();
-	removeAllQuakes();
-	removeAllAreas();
+clearSimEnviorment = function(){
+	SensorType.removeAll();
+	Marker.removeAll();
+	Quake.removeAll();
+	Area.removeAll();
 }
 
-function saveParam(params){
+saveParam = function(params){
 	currentSimID = params.ID;
 	$("#sim_name").val(params.sim_name);
 	$("#sim_desc").val(params.sim_desc); 
@@ -551,7 +520,7 @@ function saveParam(params){
 }
 
 // ---- Cookie Handlers ---- \\
-function getCookie(c_name){
+getCookie = function(c_name){
 	var c_value = document.cookie;
 	var c_start = c_value.indexOf(" " + c_name + "=");
 	if (c_start == -1){
@@ -573,14 +542,14 @@ function getCookie(c_name){
 	return c_value;
 }
 
-function setCookie(c_name,value,exdays,path){
+setCookie = function(c_name,value,exdays,path){
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((path) ? ";path="+path:"") + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value;
 }
 
-function beautifyNum(inNum){
+beautifyNum = function(inNum){
 
 	var str='';
 	inNum=Math.floor(inNum);

@@ -52,7 +52,7 @@ var end_time = 35;
 var current_time = 0;
 var timer = null;
 
-function getResultsData(){
+getResultsData = function(){
 	$.ajax({
 		url: siteURL + "get_animation_data.php?&id="+sim_id,
 		dataType:"json",
@@ -83,7 +83,7 @@ function getResultsData(){
 
 //--------- Animation  --------------//
 
-function initAnimation(json) {
+initAnimation = function(json) {
 	
 	sensors = json.sensors;
 	quakes = json.quakes;
@@ -127,7 +127,7 @@ function initAnimation(json) {
 
 }
 
-function show_table(button_num){
+show_table = function(button_num){
     for(i =0;i<num_tabs;i++){
 		$("#results_div_"+i).hide();
     }
@@ -145,7 +145,7 @@ function show_table(button_num){
 	}
 }
 
-function findMaxTrigger(){
+findMaxTrigger = function(){
 	
 	sensors.forEach(function(element, index, array){
 		element.triggers.forEach(function(element,index,array){
@@ -157,7 +157,7 @@ function findMaxTrigger(){
 	});
 }
 
-function initMarkers(){
+initMarkers = function(){
 	sensors.forEach(function(element, index, array){
 		var color = COLORS[0];
 		var image = siteURL + 'icon/animation_markers/qa_'+ color + '.png';
@@ -168,7 +168,7 @@ function initMarkers(){
 	});
 }
 
-function updateMap(){
+updateMap = function(){
 	//resetMap();
 	current_time++;
 		
@@ -232,7 +232,7 @@ function updateMap(){
 	200,000,000 dark red
 */
 
-function get_color(magnitude){
+get_color = function(magnitude){
 
 	if (magnitude < 0.001){
         return COLORS[0];
@@ -266,7 +266,7 @@ function get_color(magnitude){
         }	
 }
 
-function play_pause(){
+play_pause = function(){
 	if(timer == null){
 		play();
 	}
@@ -276,28 +276,28 @@ function play_pause(){
 
 }
 
-function play(){
+play = function(){
 	timer = window.setInterval(updateMap,350);
 }
 
-function stop(){
+stop = function(){
 	window.clearInterval(timer);
 	timer = null;	
 }
 
-function rewind(){
+rewind = function(){
 	current_time -= 2;
 	update_map();
 }
 
-function reset_animation(){
+reset_animation = function(){
 	stop();
 	current_time = end_time;
 	updateMap();
 }
 
-//--------- Animation  --------------//
-function initCharts(data){
+//--------- Charts --------------//
+initCharts = function(data){
 
 	//Prepare data
 	var histData = new Array();

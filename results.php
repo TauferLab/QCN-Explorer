@@ -81,7 +81,7 @@
 		</script>
 		
 		<!-- JSON implementation for old browsers -->
-		<script language="JavaScript" src="<?php echo $siteURL?>src/js/json3.min.js"></script>
+		<script language="JavaScript" src="<?php echo $siteURL?>src/js/lib/json3.min.js"></script>
 		
 		<!-- Chart/Animation JavaScript -->	
 		<script language="JavaScript" src="<?php echo $siteURL?>src/js/results.js"></script>
@@ -92,7 +92,7 @@
 		</script>
 		
 		<!-- Jquery -->
-		<script src="<?php echo $siteURL?>src/js/jquery-latest.js"></script>
+		<script src="<?php echo $siteURL?>src/js/lib/jquery-latest.js"></script>
 
 	<?php } ?>
 

@@ -25,21 +25,14 @@ var currentArea = -1;
 var areaArray = [];
 
 //------ Area 'Class' -------//
-function Area(areaObj){
-
-	//class methods
-	this.toJSON = areaToJSON;
-	this.surfaceAreaUpdate = areaSurfaceAreaUpdate;
-	this.densityUpdate = areaDensityUpdate;
-	this.getInfoWindowHTML = areaInfoWindowHTML;
-	this.getNumSensors = areaGetNumSensors;
+var Area = function(areaObj){
 
 	// If we're not loading a saved area create a new area
 	if(areaObj==null){
 		this.ID = ++areaID;
 		currentArea = this.ID;
 		this.type = currentSensorType;
-		google.maps.event.addListener(map, 'click', areaAddPoint);
+		google.maps.event.addListener(map, 'click', Area.addPoint);
 		
 		var color = COLORS[currentSensorType%(COLORS.length)][1];
 		
@@ -87,12 +80,12 @@ function Area(areaObj){
 	this.poly.ID = this.ID;
 	
 	google.maps.event.addListener(this.poly, 'mouseup', function(event){
-		getArea(this.ID).surfaceAreaUpdate();
+		Area.get(this.ID).surfaceAreaUpdate();
 	}); 
 		
 	google.maps.event.addListener(this.poly, 'click', function(event) {
 		if(currentSensorType==0){
-			this.infoWindow.setContent( getArea(this.ID).getInfoWindowHTML() );
+			this.infoWindow.setContent( Area.get(this.ID).getInfoWindowHTML() );
 			this.infoWindow.setPosition( event.latLng );
 			this.infoWindow.open( map );
 			
@@ -116,7 +109,7 @@ function Area(areaObj){
     $("#density_" + this.ID).val(this.density);
 }
 
-function areaToJSON(){
+Area.prototype.toJSON = function(){
 	var first = true;
 	var ret = "{"+
 		"\"ID\":\"" + this.ID + "\"," +
@@ -140,56 +133,55 @@ function areaToJSON(){
 	return ret + "]}";
 }
 
-function getArea(areaID){
+Area.get = function(areaID){
 	for(x in areaArray){
 		if(areaArray[x].ID == areaID)
 			return areaArray[x];
 	}
 }
 
-function areaAddPoint(event) {	
-	var area = getArea(currentArea);
+Area.addPoint = function (event) {	
+	var area = Area.get(currentArea);
 	area.path.insertAt(area.path.length, event.latLng);
 	area.surfaceAreaUpdate();
 }
 
 
-function areaSurfaceAreaUpdate(){
+Area.prototype.surfaceAreaUpdate = function(){
 	//Update the area contained by the polygon
 	this.sArea = Math.round( google.maps.geometry.spherical.computeArea(this.path)/1000000 );
 	this.numSensors = this.getNumSensors();
 }
 
-function areaDensityUpdate(){
+Area.prototype.densityUpdate = function(){
 	this.density = $("#density_"+this.ID).val();
 	this.numSensors = this.getNumSensors();
 	
-	this.poly.infoWindow.setContent( getArea(this.ID).getInfoWindowHTML() );
+	this.poly.infoWindow.setContent( Area.get(this.ID).getInfoWindowHTML() );
 }
 
-function areaGetNumSensors(){
+Area.prototype.getNumSensors = function(){
 	return Math.round( this.sArea * this.density / 10000);
 }
 
-function placeArea(){
+Area.place = function(){
 	areaArray.push(new Area());
 }
 
-function areaInfoWindowHTML(){
+Area.prototype.getInfoWindowHTML = function(){
 
-	var ret = "<h4>Area " + this.ID + " <button class='removeBtn' onclick=removeArea("+this.ID+")>Remove</button></h4>";
+	var ret = "<h4>Area " + this.ID + " <button class='removeBtn' onclick=Area.remove("+this.ID+")>Remove</button></h4>";
 	ret +="<table>";
 	ret +="<tr><td>Surface Area:</td><td>" + beautifyNum(this.sArea) + " Km<sup>2</sup></td></tr>";
 	ret +="<tr><td>Sensor Density:</td><td><input id='density_" + this.ID + "' type='text' value='" + this.density + "'></input> Sensors/10,000 Km<sup>2</sup></td></tr>";
 	ret +="<tr><td>Sensors in area:</td><td>" + beautifyNum(this.numSensors) + "</td></tr>";
 	ret += "</table>";
-	ret += "<button onclick='getArea("+this.ID+").densityUpdate()'>Update</button>";
-	//ret += "<button onclick='removeArea("+this.ID+")'>Remove</button>";
+	ret += "<button onclick='Area.get("+this.ID+").densityUpdate()'>Update</button>";
 	
 	return ret;
 }
 
-function removeArea(inID){
+Area.remove = function(inID){
 	for(x in areaArray){
 		if(areaArray[x].ID == inID){
 			areaArray[x].poly.infoWindow.setMap(null);
@@ -201,15 +193,14 @@ function removeArea(inID){
 	}	
 }
 
-function removeAllAreas(){
+Area.removeAll = function(){
 	while(areaArray.length>0){
-		removeArea(areaArray[0].ID);
+		Area.remove(areaArray[0].ID);
 	}
 }
 
-function addLoadedAreas(areas){
+Area.addLoaded = function(areas){
 	for(x in areas){
-		console.debug(areas[x]);
 		areaArray.push(new Area(areas[x]));
 	}
 }

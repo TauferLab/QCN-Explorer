@@ -57,13 +57,13 @@
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 
 <!-- Jquery -->
-<script language="JavaScript" src="<?php echo $siteURL?>src/js/jquery-latest.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/lib/jquery-latest.js"></script>
 
 <!-- qTip -->
-<script language="JavaScript" src="<?php echo $siteURL?>src/js/jquery.qtip.min.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/lib/jquery.qtip.min.js"></script>
 
 <!-- JSON implementation for old browsers -->
-<script language="JavaScript" src="<?php echo $siteURL?>src/js/json3.min.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/lib/json3.min.js"></script>
 
 <!-- QCN Javascript -->
 <script language="JavaScript" src="<?php echo $siteURL?>src/js/editor.js"></script>
@@ -116,7 +116,7 @@
 			<div id="sensorTypesHeader">
 				Sensor Types
 			</div>
-			<button id="newSensorType" OnClick="addNewSensorType();">Add Sensor Type...</button>
+			<button id="newSensorType" OnClick="SensorType.addNew();">Add Sensor Type...</button>
 			<div id="sensorTypes">
 				<div id="sensorTypesContainer">
 				</div>
