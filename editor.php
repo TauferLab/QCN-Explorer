@@ -72,6 +72,7 @@
 <script language="JavaScript" src="<?php echo $siteURL?>src/js/quakes.js"></script>
 <script language="JavaScript" src="<?php echo $siteURL?>src/js/sensorType.js"></script>
 <script language="JavaScript" src="<?php echo $siteURL?>src/js/tutorial.js"></script>
+<script language="JavaScript" src="<?php echo $siteURL?>src/js/simToJSON.js"></script>
 <script language="JavaScript">
 	//TODO : Don't do this assigning JavaScript variables from PHP is bad news
 	<?php
