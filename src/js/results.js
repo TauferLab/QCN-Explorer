@@ -21,7 +21,7 @@
  */ 
 
 var map = null;
-var num_tabs = 5;
+var num_tabs = 6;
 var results = [];
 
 //TODO: Replace colors
@@ -51,10 +51,13 @@ getResultsData = function(){
 		url: siteURL + "get_animation_data.php?&id="+sim_id,
 		dataType:"json",
 		success: function(data){
-			$("#rawData").val(JSON.stringify(data));
+			$("#JSONdata").val(JSON.stringify(data));
 			
-			if(location.hash == "#data"){
+			if(location.hash == "#JSON"){
 				show_table(5);
+			}
+			if(location.hash == "#CSV"){
+				show_table(6);
 			}
 			else if(location.hash == "#chart1"){
 				show_table(2);
@@ -71,6 +74,8 @@ getResultsData = function(){
 			
 			initAnimation(data);
 			initCharts(data);
+			
+			writeCSV(data);
 		}
 	});
 }
@@ -135,7 +140,8 @@ show_table = function(button_num){
 	case 2: location.hash = "chart1"; break;
 	case 3: location.hash = "chart2"; break;
 	case 4: location.hash = "chart3"; break;
-	case 5: location.hash = "data"; break;
+	case 5: location.hash = "JSON"; break;
+	case 6: location.hash = "CSV"; break;
 	}
 }
 
@@ -353,8 +359,22 @@ initCharts = function(data){
 	
 }
 
+writeCSV = function(data){
+    
+    var CSV = "";
+    
+    for( i in data.sensors){
+        for( j in data.sensors[i].triggers ){
+            CSV += data.sensors[i].ID+","+data.sensors[i].location.lat+","+data.sensors[i].location.lat+","+data.sensors[i].triggers[j].mag+","+data.sensors[i].triggers[j].time+"\n";
+        }
+    }
+    
+    $("#CSVdata").val(CSV);
+}
+
 // Load the Visualization API and the piechart package.
 google.load('visualization', '1', {'packages':['corechart']});
     
 // Set a callback to run when the Google Visualization API is loaded.
 google.setOnLoadCallback( getResultsData );
+

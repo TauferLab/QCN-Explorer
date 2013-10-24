@@ -134,7 +134,8 @@
 			<div id="leftCol"> 
 				<h4 class="selectorBtnTitle">Results</h4>
 				<button class="selectorBtn" onclick="show_table(1);">Animation</button>
-				<button class="selectorBtn" onclick="show_table(5);">Raw Data</button>
+				<button class="selectorBtn" onclick="show_table(5);">JSON</button>
+				<button class="selectorBtn" onclick="show_table(6);">CSV</button>
 				<br>
 				<h4 class="selectorBtnTitle">Graphs</h4>
 				<button class="selectorBtn" onclick="show_table(2);">Number of Triggers per Second</button>
@@ -201,7 +202,11 @@
 				</div>
 				<div id="results_div_5" class="results_div">
 					Below is a JSON string which represents the simulation results:
-					<textarea id="rawData"></textarea>
+					<textarea id="JSONdata"></textarea>
+				</div>
+				<div id="results_div_6" class="results_div">
+					Below is a CSV representation of the results:
+					<textarea id="CSVdata"></textarea>
 				</div>
 			</div>
 			
